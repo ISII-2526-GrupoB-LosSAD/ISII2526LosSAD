@@ -4,7 +4,7 @@ project:
   teamId: 'LosSAD'
   identities: {}
   notifications:
-    email: 'Antonio.Sanchez38@alu.uclm.es,Daniel.Tierraseca@alu.uclm.es,Sandra.Garcia73 @alu.uclm.es'
+    email: 'Antonio.Sanchez38@alu.uclm.es,Daniel.Tierraseca@alu.uclm.es,Sandra.Garcia73@alu.uclm.es'
   members:
     member1:
       name: 'Antonio'
