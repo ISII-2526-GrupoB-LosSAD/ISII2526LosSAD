@@ -18,5 +18,7 @@
         public int quauntityForRent { get; set; }
 
         public int Year { get; set; }
+        public List<PurchaseItem> PurchaseItems { get; set; }
+
     }
 }
