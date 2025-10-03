@@ -5,5 +5,6 @@
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
+        public IList<Repair> Repairs { get; set; }
     }
 }

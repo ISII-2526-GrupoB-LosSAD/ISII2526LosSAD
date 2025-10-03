@@ -8,5 +8,6 @@
         public int Id { get; set; }
         public string Name { get; set; }
         public int Scaledid { get; set; }
+        public Scale Scale { get; set; }
     }
 }
