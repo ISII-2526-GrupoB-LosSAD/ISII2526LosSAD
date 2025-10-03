@@ -14,5 +14,6 @@
             //Metodos de pago
         }
         public DateTime ReceiptDate { get; set; }
+
     }
 }
