@@ -9,5 +9,6 @@
         public string Name { get; set; }
         public int Scaledid { get; set; }
         public Scale Scale { get; set; }
+        public IList<Receiptitem> Receiptitems { get; set; }
     }
 }

@@ -9,5 +9,6 @@
         }
         public DateTime ReceiptDate { get; set; }
         public double TotalPrice { get; set; }
+        public IList<Receiptitem> Receiptitems { get; set; }
     }
 }
