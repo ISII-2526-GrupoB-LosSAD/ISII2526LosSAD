@@ -8,6 +8,7 @@
         public int OverallRating { get; set; }
         public int ReviewId { get; set; }
         public string ReviewTitle { get; set; }
+        public List<ReviewItem> ReviewItems { get; set; }
 
     }
 }

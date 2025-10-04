@@ -20,6 +20,7 @@
         public int Year { get; set; }
         public List<PurchaseItem> PurchaseItems { get; set; }
         public Model Model { get; set; }
+        public List<ReviewItem> ReviewItems { get; set; }
 
     }
 }

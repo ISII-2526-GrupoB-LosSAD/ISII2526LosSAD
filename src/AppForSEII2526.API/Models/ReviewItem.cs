@@ -1,5 +1,7 @@
 ﻿namespace AppForSEII2526.API.Models
 {
+    [PrimaryKey(nameof(DeviceId),
+nameof(ReviewId))]
     public class ReviewItem
     {
         public string Comments { get; set; }
