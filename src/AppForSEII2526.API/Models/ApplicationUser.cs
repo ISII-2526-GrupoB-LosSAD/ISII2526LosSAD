@@ -6,4 +6,5 @@ namespace AppForSEII2526.API.Models;
 public class ApplicationUser : IdentityUser {
     public string CustomerUserName { get; set; }
     public string CustomerUserSurname { get; set; }
+    public string CustomerCountry { get; set; }
 }
