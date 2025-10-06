@@ -28,5 +28,7 @@
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime ReceiptDate { get; set; }
 
+        public IList<PurchaseItem> PurchaseItems { get; set; }
+
     }
 }
