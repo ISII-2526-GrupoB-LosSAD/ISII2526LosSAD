@@ -5,7 +5,7 @@
     public class PurchaseItem
     {
         [StringLength(200, ErrorMessage = "Description cannot be longer than 200 characters.", MinimumLength = 4)]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         public Device Device { get; set; }
 
@@ -21,6 +21,6 @@
         [Range(1, int.MaxValue, ErrorMessage = "Minimum 1")]
         public int Quantity { get; set; }
 
-
+        public ApplicationUser ApplicationUser { get; set; }
     }
 }

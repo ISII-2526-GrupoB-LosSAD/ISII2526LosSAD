@@ -7,4 +7,5 @@ public class ApplicationUser : IdentityUser {
     public string CustomerUserName { get; set; }
     public string CustomerUserSurname { get; set; }
     public string CustomerCountry { get; set; }
+    public IList<PurchaseItem> PurchaseItem { get; set; }
 }
