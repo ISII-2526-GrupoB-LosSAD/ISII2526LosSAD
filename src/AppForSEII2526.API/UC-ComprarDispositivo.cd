@@ -11,7 +11,7 @@
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="AppForSEII2526.API.Models.Device">
-    <Position X="3.25" Y="1.75" Width="2.75" />
+    <Position X="3" Y="1.75" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAACgAAABABlAABBAAAAAAQAAAAAAAAAAAgAgBABAAA=</HashCode>
       <FileName>Models\Device.cs</FileName>
@@ -24,18 +24,19 @@
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="AppForSEII2526.API.Models.PurchaseItem">
-    <Position X="8.5" Y="0.5" Width="1.75" />
+    <Position X="8.5" Y="0.5" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>AAQAAAAABQAgAgAAAAAAAAAAAAAAAAAAEAAAgAAAAAA=</HashCode>
+      <HashCode>AAQAAAAABQAgAgAQAAAAAAAAAAAAAAAAEAAAgAAAAAA=</HashCode>
       <FileName>Models\PurchaseItem.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="Device" />
       <Property Name="Purchase" />
+      <Property Name="ApplicationUser" />
     </ShowAsAssociation>
   </Class>
   <Class Name="AppForSEII2526.API.Models.Purchase">
-    <Position X="9.75" Y="3" Width="3" />
+    <Position X="8.25" Y="3.25" Width="3" />
     <NestedTypes>
       <Enum Name="AppForSEII2526.API.Models.Purchase.PaymentMethodTypes" Collapsed="true">
         <TypeIdentifier>
@@ -49,6 +50,16 @@
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
       <Property Name="PurchaseItems" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="AppForSEII2526.API.Models.ApplicationUser">
+    <Position X="13.5" Y="1.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAEAAAQAAAAAAACAAAAAAAAAAAAAAAAAAE=</HashCode>
+      <FileName>Models\ApplicationUser.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="PurchaseItem" />
     </ShowAsCollectionAssociation>
   </Class>
   <Font Name="Segoe UI" Size="9" />
