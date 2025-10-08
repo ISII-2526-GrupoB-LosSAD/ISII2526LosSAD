@@ -21,6 +21,5 @@
         [Range(1, int.MaxValue, ErrorMessage = "Minimum 1")]
         public int Quantity { get; set; }
 
-        public ApplicationUser ApplicationUser { get; set; }
     }
 }
