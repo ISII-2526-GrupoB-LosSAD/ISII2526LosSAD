@@ -30,5 +30,8 @@
 
         public IList<PurchaseItem> PurchaseItems { get; set; }
 
+        public ApplicationUser ApplicationUser { get; set; }
+
+
     }
 }

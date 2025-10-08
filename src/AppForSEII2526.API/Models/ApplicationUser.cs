@@ -12,7 +12,7 @@ public class ApplicationUser : IdentityUser {
 
     [StringLength(10, ErrorMessage = "Name country cannot be longer than 50 characters.", MinimumLength = 4)]
     public string CustomerCountry { get; set; }
-    public IList<PurchaseItem> PurchaseItem { get; set; }
+    public IList<Purchase> Purchase { get; set; }
     public IList<Review> Review { get; set; }
     public IList<Receipt> Receipt { get; set; }
 }

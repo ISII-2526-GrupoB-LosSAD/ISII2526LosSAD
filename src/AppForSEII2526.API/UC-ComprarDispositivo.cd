@@ -26,13 +26,12 @@
   <Class Name="AppForSEII2526.API.Models.PurchaseItem">
     <Position X="8.5" Y="0.5" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>AAQAAAAABQAgAgAQAAAAAAAAAAAAAAAAEAAAgAAAAAA=</HashCode>
+      <HashCode>AAQAAAAABQAgAgAAAAAAAAAAAAAAAAAAEAAAgAAAAAA=</HashCode>
       <FileName>Models\PurchaseItem.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="Device" />
       <Property Name="Purchase" />
-      <Property Name="ApplicationUser" />
     </ShowAsAssociation>
   </Class>
   <Class Name="AppForSEII2526.API.Models.Purchase">
@@ -45,21 +44,24 @@
       </Enum>
     </NestedTypes>
     <TypeIdentifier>
-      <HashCode>AAADAAAAAABAAAAAACAAAAAAAAQAQAQAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAADAAAAAABAAAAQACAAAAAAAAQAQAQAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Purchase.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ApplicationUser" />
+    </ShowAsAssociation>
     <ShowAsCollectionAssociation>
       <Property Name="PurchaseItems" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="AppForSEII2526.API.Models.ApplicationUser">
-    <Position X="13.5" Y="1.75" Width="2.75" />
+    <Position X="13.5" Y="2.5" Width="2.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAEAAAQAAAAAAACAAAAAAAAAAAAAAAAAAE=</HashCode>
+      <HashCode>AAQAAAAAAAAEAAAQAAAAAAAAAAAAAAAAACCAAAAAAAE=</HashCode>
       <FileName>Models\ApplicationUser.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
-      <Property Name="PurchaseItem" />
+      <Property Name="Purchase" />
     </ShowAsCollectionAssociation>
   </Class>
   <Font Name="Segoe UI" Size="9" />
