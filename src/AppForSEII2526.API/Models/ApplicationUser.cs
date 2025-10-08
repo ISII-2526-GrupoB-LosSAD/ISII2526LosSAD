@@ -8,4 +8,5 @@ public class ApplicationUser : IdentityUser {
     public string CustomerUserSurname { get; set; }
     public string CustomerCountry { get; set; }
     public IList<PurchaseItem> PurchaseItem { get; set; }
+    public IList<Review> Review { get; set; }
 }

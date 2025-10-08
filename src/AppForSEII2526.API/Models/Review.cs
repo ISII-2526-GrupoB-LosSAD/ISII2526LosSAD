@@ -12,6 +12,6 @@
         [StringLength(50, ErrorMessage = "Review Title cannot be longer than 50 characters.", MinimumLength = 4)]
         public string ReviewTitle { get; set; }
         public IList<ReviewItem> ReviewItems { get; set; }
-
+        public ApplicationUser ApplicationUser { get; set; }
     }
 }
