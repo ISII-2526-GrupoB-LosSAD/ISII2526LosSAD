@@ -19,5 +19,6 @@
         public double TotalPrice { get; set; }
 
         public IList<Receiptitem> Receiptitems { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
     }
 }

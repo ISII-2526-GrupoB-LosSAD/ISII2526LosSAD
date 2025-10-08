@@ -44,11 +44,24 @@
       </Enum>
     </NestedTypes>
     <TypeIdentifier>
-      <HashCode>EAADAAAAAAAAAAAAAAAAAAAAAAQAQAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>EAADAAAAAAAAAAAQAAAAAAAAAAQAQAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Receipt.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ApplicationUser" />
+    </ShowAsAssociation>
     <ShowAsCollectionAssociation>
       <Property Name="Receiptitems" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="AppForSEII2526.API.Models.ApplicationUser">
+    <Position X="9" Y="4.25" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAEAAAQAAAAAAACAAAAAAAAACCAAAAAAAE=</HashCode>
+      <FileName>Models\ApplicationUser.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Receipt" />
     </ShowAsCollectionAssociation>
   </Class>
   <Font Name="Segoe UI" Size="9" />
