@@ -2,6 +2,8 @@
 {
     public class Receipt
     {
+        [StringLength(50, ErrorMessage = "DeliveryAddress cannot be longer than 50 characters.", MinimumLength = 4)]
+        public string DeliveryAddress { get; set; }
         public int Id { get; set; }
 
         public enum PaymentMethodTypes
