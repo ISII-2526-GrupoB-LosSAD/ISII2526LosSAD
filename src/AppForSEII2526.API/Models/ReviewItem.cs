@@ -7,9 +7,8 @@
         public string Comments { get; set; }
         public int DeviceId { get; set; }
         public Device Device { get; set; }  
-        [Key]
-        public int Id { get; set; }
-        [Range(1, int.MaxValue, ErrorMessage = "Minimum 1")]
+      
+        [Range(1, 5, ErrorMessage = "Minimum 1, Maximun 5")]
         public int Rating { get; set; }
         public int ReviewId { get; set; }
         public Review Review { get; set; }
