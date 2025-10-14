@@ -32,7 +32,7 @@ namespace AppForSEII2526.API.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     CustomerUserName = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
                     CustomerUserSurname = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    CustomerCountry = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    CustomerCountry = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -214,6 +214,7 @@ namespace AppForSEII2526.API.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    DeliveryAddress = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     PaymentMethod = table.Column<int>(type: "int", nullable: false),
                     ReceiptDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     TotalPrice = table.Column<double>(type: "float(10)", precision: 10, scale: 2, nullable: false),
@@ -337,7 +338,6 @@ namespace AppForSEII2526.API.Migrations
                     DeviceId = table.Column<int>(type: "int", nullable: false),
                     ReviewId = table.Column<int>(type: "int", nullable: false),
                     Comments = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Id = table.Column<int>(type: "int", nullable: false),
                     Rating = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
