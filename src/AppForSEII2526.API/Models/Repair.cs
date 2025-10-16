@@ -15,7 +15,7 @@
         [StringLength(50, ErrorMessage = "Name cannot be longer than 50 characters.", MinimumLength = 4)]
         public string Name { get; set; }
 
-        public int Scaledid { get; set; }
+        public int ScaleId { get; set; }
 
         public Scale Scale { get; set; }
 

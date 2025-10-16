@@ -315,9 +315,6 @@ namespace AppForSEII2526.API.Migrations
                     b.Property<int>("ScaleId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Scaledid")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ScaleId");

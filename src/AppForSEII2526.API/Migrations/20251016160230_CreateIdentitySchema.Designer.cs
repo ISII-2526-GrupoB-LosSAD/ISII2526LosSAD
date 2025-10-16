@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AppForSEII2526.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251014084713_CreateIdentitySchema")]
+    [Migration("20251016160230_CreateIdentitySchema")]
     partial class CreateIdentitySchema
     {
         /// <inheritdoc />
@@ -316,9 +316,6 @@ namespace AppForSEII2526.API.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<int>("ScaleId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Scaledid")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

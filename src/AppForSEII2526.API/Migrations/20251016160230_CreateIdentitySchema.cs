@@ -290,7 +290,6 @@ namespace AppForSEII2526.API.Migrations
                     Cost = table.Column<float>(type: "real", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Scaledid = table.Column<int>(type: "int", nullable: false),
                     ScaleId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
