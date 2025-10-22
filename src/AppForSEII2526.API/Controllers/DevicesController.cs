@@ -4,6 +4,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
+﻿using AppForSEII2526.API.DTOS.DevicesDTO;
+using AppForSEII2526.API.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace AppForSEII2526.API.Controllers
 {
@@ -49,6 +54,22 @@ namespace AppForSEII2526.API.Controllers
 
         }
 
+
+        [ProducesResponseType(typeof(IList<DevicesparareseniaDTO>), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult> GetDevicesparareseniaDTO(string? brand,int? year)
+        {
+            if (_context.Devices == null)
+            {
+                _logger.LogError("Error: Rentals table does not exist");
+                return NotFound();
+            }
+            var device = await _context.Devices
+                 .Where(d => (brand == null || d.Brand.Contains(brand)))
+                    .Where(d => (year == null || d.Year == year))
+                .Select(d => new DevicesparareseniaDTO(d.Id, d.Name,d.Brand,d.Color, d.Year, d.Model.NameModel))
+                .ToListAsync();
+            return Ok(device);
+        }
 
     }
 }
