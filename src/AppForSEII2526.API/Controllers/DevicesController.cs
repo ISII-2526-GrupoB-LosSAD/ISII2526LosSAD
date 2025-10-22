@@ -1,0 +1,56 @@
+﻿using AppForSEII2526.API.DTOS.DevicesDTO;
+using AppForSEII2526.API.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using System.Linq;
+
+namespace AppForSEII2526.API.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class DevicesController : ControllerBase
+    {
+        private readonly ILogger<DevicesController> _logger;
+        private readonly ApplicationDbContext _context;
+
+        public DevicesController(ILogger<DevicesController> logger, ApplicationDbContext context)
+        {
+            _logger = logger;
+            _context = context;
+        }
+
+        [HttpGet]
+        [Route("[action]")]
+        [ProducesResponseType(typeof(decimal), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
+        public async Task<ActionResult> ComputeDivision(decimal op1, decimal op2)
+        {
+            if (op2 == 0)
+            {
+                _logger.LogError($"{DateTime.Now} Exception: op2=0, division by 0");
+                return BadRequest("op2 must be different from 0");
+            }
+            decimal result = decimal.Round(op1 / op2, 2);
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("[action]")]
+        [ProducesResponseType(typeof(IList<DevicesparareseniaDTO>), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult> GetDevicesparareseniaDTO(string? brand,int? year)
+        {
+            if (_context.Devices == null)
+            {
+                _logger.LogError("Error: Rentals table does not exist");
+                return NotFound();
+            }
+            var device = await _context.Devices
+                 .Where(d => (brand == null || d.Brand.Contains(brand)))
+                    .Where(d => (year == null || d.Year == year))
+                .Select(d => new DevicesparareseniaDTO(d.Id, d.Name,d.Brand,d.Color, d.Year, d.Model.NameModel))
+                .ToListAsync();
+            return Ok(device);
+        }
+
+    }
+}
