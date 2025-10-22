@@ -1,3 +1,9 @@
+﻿using AppForSEII2526.API.DTOs.DevicesDTO;
+using AppForSEII2526.API.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+
 ﻿using AppForSEII2526.API.DTOS.DevicesDTO;
 using AppForSEII2526.API.Models;
 using Microsoft.AspNetCore.Http;
@@ -36,6 +42,19 @@ namespace AppForSEII2526.API.Controllers
 
         [HttpGet]
         [Route("[action]")]
+        [ProducesResponseType(typeof(IList<DevicesParaComprarDTO>), (int)HttpStatusCode.OK)]
+
+        public async Task<ActionResult> GetDevicesParaComprarDTO(string? name, string? color)
+        {
+            var devices = await _context.Devices
+                .Where(d => (name == null || d.Name.Contains(name)) && (color == null || d.Color.Contains(color)))
+                .Select(d => new DevicesParaComprarDTO( d.Id, d.Name, d.priceForPurchase, d.Brand, d.Model.NameModel, d.Color ))
+                .ToListAsync();
+            return Ok(devices);
+
+        }
+
+
         [ProducesResponseType(typeof(IList<DevicesparareseniaDTO>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult> GetDevicesparareseniaDTO(string? brand,int? year)
         {
