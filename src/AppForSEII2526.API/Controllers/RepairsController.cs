@@ -6,15 +6,15 @@ namespace AppForSEII2526.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RepairController : ControllerBase
+    public class RepairsController : ControllerBase
     {
         //used to enable your controller to access to the database
         private readonly ApplicationDbContext _context;
 
         //used to log any information when your system is running
-        private readonly ILogger<RepairController> _logger;
+        private readonly ILogger<RepairsController> _logger;
 
-        public RepairController(ApplicationDbContext context, ILogger<RepairController> logger)
+        public RepairsController(ApplicationDbContext context, ILogger<RepairsController> logger)
         {
             _context = context;
             _logger = logger;
@@ -40,6 +40,7 @@ namespace AppForSEII2526.API.Controllers
         public async Task<ActionResult> GetDevicesParaRepararDTO(string? name, string? scale)
         {
             var device = await _context.Repairs
+                .Include(d=>d.Scale)
                 .Where(d => (name == null || d.Name.Contains(name)  ) && (scale == null|| d.Scale.Name.Contains(scale)))
                 .Select(d => new RepairParaRepararDTO(d.Id, d.Name, d.Scale.Name, d.Description, d.Cost
                 ))
