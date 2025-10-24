@@ -8,9 +8,9 @@
         public int Quantity { get; set; }
         public string Brand { get; set; }
         public string Color { get; set; }
-        public Model Model { get; set; }
+        public string Model { get; set; }
 
-        public PurchaseItemDTO(string description, double price, int quantity, string brand, string color, Model model)
+        public PurchaseItemDTO(string description, double price, int quantity, string brand, string color, string model)
         {
             this.Description = description;
             this.Price = price;

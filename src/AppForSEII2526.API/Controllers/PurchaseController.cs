@@ -26,12 +26,12 @@ namespace AppForSEII2526.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult> GetPurchase(int id)
         {
-            if (_context.Purchase == null)
+            if (_context.Purchases == null)
             {
                 _logger.LogError("Error: Purchases table does not exist");
                 return NotFound();
             }
-            var purchase = await _context.Purchase
+            var purchase = await _context.Purchases
                 .Where(r => r.Id == id)
                     .Include(r => r.ApplicationUser)
                     .Include(r => r.PurchaseItems) 
@@ -45,7 +45,7 @@ namespace AppForSEII2526.API.Controllers
                         ri.Device.quauntityForPurchase,
                         ri.Device.Brand,
                         ri.Device.Color,
-                        ri.Device.Model 
+                        ri.Device.Model.NameModel 
                     )).ToList<PurchaseItemDTO>() 
                 ))
                 .FirstOrDefaultAsync();

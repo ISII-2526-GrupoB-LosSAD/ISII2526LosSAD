@@ -11,7 +11,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public DbSet<Receipt> Receipts { get; set; }
     public DbSet<Receiptitem> Receiptitems { get; set; }
     public DbSet<Model> Models { get; set; }
-    public DbSet<Purchase> Purchase { get; set; }
+    public DbSet<Purchase> Purchases { get; set; }
     public DbSet<Repair> Repairs { get; set; }
     public DbSet<Scale> Scales { get; set; }
     public DbSet<ReviewItem> ReviewItems { get; set; }  
