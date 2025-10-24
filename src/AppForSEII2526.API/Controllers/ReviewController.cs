@@ -38,7 +38,7 @@ namespace AppForSEII2526.API.Controllers
                             .ThenInclude(rep => rep.Model)
                 .Select(r => new ReviewDetailDTO( r.ApplicationUser.CustomerUserName, r.ApplicationUser.CustomerCountry, r.DateOfReview, r.ReviewTitle, 
                     r.ReviewItems.Select(ri => new ReviewItemDTO(
-                        ri.Device.Name, ri.Device.Model,ri.Device.Year, ri.Rating, ri.Comments ) )
+                        ri.Device.Name, ri.Device.Model.NameModel,ri.Device.Year, ri.Rating, ri.Comments ) )
                     .ToList<ReviewItemDTO>()
                 ))
                 .FirstOrDefaultAsync();
