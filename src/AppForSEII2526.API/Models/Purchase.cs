@@ -1,5 +1,10 @@
 ﻿namespace AppForSEII2526.API.Models
 {
+    public enum PurchasePaymentMethodTypes
+    {
+        Paypal,
+        CreditCard
+    }
     public class Purchase
     {
         [DataType(System.ComponentModel.DataAnnotations.DataType.MultilineText)]
@@ -16,13 +21,10 @@
         [Range(1, int.MaxValue, ErrorMessage = "Minimum 1")]
         public int TotalQuantity { get; set; }
 
-        public enum PaymentMethodTypes
-        {
-            Paypal,CreditCard
-        }
+       
 
         [Display(Name = "Payment Method")]
-        public PaymentMethodTypes PaymentMethod { get; set; }
+        public PurchasePaymentMethodTypes PaymentMethod { get; set; }
 
         [DataType(System.ComponentModel.DataAnnotations.DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]

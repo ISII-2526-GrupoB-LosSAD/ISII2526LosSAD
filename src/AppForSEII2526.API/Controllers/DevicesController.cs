@@ -47,6 +47,7 @@ namespace AppForSEII2526.API.Controllers
         public async Task<ActionResult> GetDevicesParaComprarDTO(string? name, string? color)
         {
             var devices = await _context.Devices
+                .Include(d => d.Model)
                 .Where(d => (name == null || d.Name.Contains(name)) && (color == null || d.Color.Contains(color)))
                 .Select(d => new DevicesParaComprarDTO( d.Id, d.Name, d.priceForPurchase, d.Brand, d.Model.NameModel, d.Color ))
                 .ToListAsync();
@@ -54,7 +55,8 @@ namespace AppForSEII2526.API.Controllers
 
         }
 
-
+        [HttpGet]
+        [Route("[action]")]
         [ProducesResponseType(typeof(IList<DevicesparareseniaDTO>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult> GetDevicesparareseniaDTO(string? brand,int? year)
         {
@@ -64,6 +66,7 @@ namespace AppForSEII2526.API.Controllers
                 return NotFound();
             }
             var device = await _context.Devices
+                .Include(d => d.Model)
                  .Where(d => (brand == null || d.Brand.Contains(brand)))
                     .Where(d => (year == null || d.Year == year))
                 .Select(d => new DevicesparareseniaDTO(d.Id, d.Name,d.Brand,d.Color, d.Year, d.Model.NameModel))
