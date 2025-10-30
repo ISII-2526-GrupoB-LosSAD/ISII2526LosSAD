@@ -25,5 +25,18 @@
 
         public IList<Receiptitem> Receiptitems { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
+
+        public Receipt()
+        {
+        }
+
+        public Receipt(string deliveryAddress,DateTime receiptDate, ReceiptPaymentMethodTypes paymentMethod, IList<Receiptitem> receiptitems, ApplicationUser applicationUser)
+        {
+            DeliveryAddress = deliveryAddress;
+            ReceiptDate = receiptDate;
+            PaymentMethod = paymentMethod;
+            Receiptitems = receiptitems;
+            ApplicationUser = applicationUser;
+        }
     }
 }
