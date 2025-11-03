@@ -31,7 +31,15 @@ namespace AppForSEII2526.API.DTOS.DevicesDTO
 		[StringLength(50, ErrorMessage = "Name cannot be longer than 50 characters.", MinimumLength = 4)]
 		public string Model { get; set; }
 
-
-		
-	}
+        public override bool Equals(object? obj)
+        {
+            return obj is DevicesparareseniaDTO dTO &&
+                   Id == dTO.Id &&
+                   Brand == dTO.Brand &&
+                   Color == dTO.Color &&
+                   Name == dTO.Name &&
+                   Year == dTO.Year &&
+                   Model == dTO.Model;
+        }
+    }
 }
