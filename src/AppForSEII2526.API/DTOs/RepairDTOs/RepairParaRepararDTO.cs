@@ -19,5 +19,15 @@
         [Range(0.0, 1000.0, ErrorMessage = "El valor debe estar entre 0 y 1000.")]
         [Display(Name = "Float Value")]
         public float cost { get; set; }
+
+        public override bool Equals(object? obj)
+        {
+            return obj is RepairParaRepararDTO dTO &&
+                   id == dTO.id &&
+                   name == dTO.name &&
+                   scale == dTO.scale &&
+                   description == dTO.description &&
+                   cost == dTO.cost;
+        }
     }
 }

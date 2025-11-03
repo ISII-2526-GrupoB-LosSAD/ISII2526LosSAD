@@ -15,4 +15,15 @@ public class ApplicationUser : IdentityUser {
     public IList<Purchase> Purchase { get; set; }
     public IList<Review> Review { get; set; }
     public IList<Receipt> Receipt { get; set; }
+
+    public ApplicationUser()
+    {
+    }
+
+    public ApplicationUser(string customerUserName, string customerUserSurname, string? customerCountry)
+    {
+        CustomerUserName = customerUserName;
+        CustomerUserSurname = customerUserSurname;
+        CustomerCountry = customerCountry;
+    }
 }
