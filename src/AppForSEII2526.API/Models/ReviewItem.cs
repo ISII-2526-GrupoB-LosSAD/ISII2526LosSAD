@@ -3,6 +3,18 @@
     [PrimaryKey(nameof(DeviceId),nameof(ReviewId))]
     public class ReviewItem
     {
+        public ReviewItem()
+        {
+        }
+
+        public ReviewItem(string comments, int rating, Review reviewItem, Device device)
+        {
+            Comments = comments;
+            Rating = rating;
+            Review = reviewItem;
+            Device = device;
+        }
+
         [StringLength(100, ErrorMessage = "Comments cannot be longer than 100 characters.", MinimumLength = 4)]
         public string Comments { get; set; }
         public int DeviceId { get; set; }
