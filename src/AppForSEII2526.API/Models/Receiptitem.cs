@@ -21,5 +21,14 @@
             Receipt = receipt;
             Repair = repairItem;
         }
+
+        public Receiptitem(string model, int receiptId, Receipt receipt, int repairId, Repair repair)
+        {
+            Model = model;
+            ReceiptId = receiptId;
+            Receipt = receipt;
+            RepairId = repairId;
+            Repair = repair;
+        }
     }
 }

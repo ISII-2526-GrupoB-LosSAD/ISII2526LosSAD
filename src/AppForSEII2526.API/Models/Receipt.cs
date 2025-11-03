@@ -38,5 +38,15 @@
             Receiptitems = receiptitems;
             ApplicationUser = applicationUser;
         }
+
+        public Receipt(string deliveryAddress, int id, ReceiptPaymentMethodTypes paymentMethod, DateTime receiptDate, double totalPrice, IList<Receiptitem> receiptitems)
+        {
+            DeliveryAddress = deliveryAddress;
+            Id = id;
+            PaymentMethod = paymentMethod;
+            ReceiptDate = receiptDate;
+            TotalPrice = totalPrice;
+            Receiptitems = receiptitems;
+        }
     }
 }
