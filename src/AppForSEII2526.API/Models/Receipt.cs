@@ -1,0 +1,52 @@
+﻿namespace AppForSEII2526.API.Models
+{
+    public enum ReceiptPaymentMethodTypes
+    {
+        Paypal,
+        CreditCard,
+        BankTransfer
+    }
+    public class Receipt
+    {
+        [StringLength(50, ErrorMessage = "DeliveryAddress cannot be longer than 50 characters.", MinimumLength = 4)]
+        public string DeliveryAddress { get; set; }
+        public int Id { get; set; }
+
+       
+        [Display(Name = "Payment Method")]
+        public ReceiptPaymentMethodTypes PaymentMethod { get; set; }
+
+        [DataType(System.ComponentModel.DataAnnotations.DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime ReceiptDate { get; set; }
+
+        [Precision(10, 2)]
+        public double TotalPrice { get; set; }
+
+        public IList<Receiptitem> Receiptitems { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
+
+        public Receipt()
+        {
+        }
+
+        public Receipt(string deliveryAddress,DateTime receiptDate, ReceiptPaymentMethodTypes paymentMethod, IList<Receiptitem> receiptitems, ApplicationUser applicationUser)
+        {
+            DeliveryAddress = deliveryAddress;
+            ReceiptDate = receiptDate;
+            PaymentMethod = paymentMethod;
+            Receiptitems = receiptitems;
+            ApplicationUser = applicationUser;
+        }
+
+        public Receipt(string deliveryAddress, int id, ReceiptPaymentMethodTypes paymentMethod, DateTime receiptDate, double totalPrice, IList<Receiptitem> receiptitems)
+        {
+            DeliveryAddress = deliveryAddress;
+            Id = id;
+            PaymentMethod = paymentMethod;
+            ReceiptDate = receiptDate;
+            TotalPrice = totalPrice;
+            Receiptitems = receiptitems;
+        }
+    }
+}
