@@ -48,5 +48,10 @@
             TotalPrice = totalPrice;
             Receiptitems = receiptitems;
         }
+
+        public Receipt(string deliveryAddress, int id, ReceiptPaymentMethodTypes paymentMethod, DateTime receiptDate, double totalPrice, IList<Receiptitem> receiptitems, ApplicationUser applicationUser) : this(deliveryAddress, id, paymentMethod, receiptDate, totalPrice, receiptitems)
+        {
+            ApplicationUser = applicationUser;
+        }
     }
 }
