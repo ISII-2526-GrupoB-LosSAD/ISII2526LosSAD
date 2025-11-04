@@ -1,4 +1,5 @@
-﻿namespace AppForSEII2526.API.DTOs.ReceiptDTOs
+﻿
+namespace AppForSEII2526.API.DTOs.ReceiptDTOs
 {
     public class ReceiptDetailDTO
     {
@@ -17,6 +18,17 @@
             this.TotalPrice = TotalPrice;
             this.ReceiptDate = ReceiptDate;
             this.Receiptitems = Receiptitems;
+        }
+
+        public override bool Equals(object? obj)
+        {
+            return obj is ReceiptDetailDTO dTO &&
+                   CustomerUserName == dTO.CustomerUserName &&
+                   CustomerUserSurname == dTO.CustomerUserSurname &&
+                   DeliveryAddress == dTO.DeliveryAddress &&
+                   TotalPrice == dTO.TotalPrice &&
+                   ReceiptDate == dTO.ReceiptDate &&
+                   Receiptitems.SequenceEqual(dTO.Receiptitems);
         }
     }
 }

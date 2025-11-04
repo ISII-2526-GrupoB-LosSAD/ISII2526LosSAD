@@ -13,5 +13,14 @@
             this.Cost = Cost;
             this.Model = Model;
         }
+
+        public override bool Equals(object? obj)
+        {
+            return obj is ReceiptitemDTO dTO &&
+                   Name == dTO.Name &&
+                   Scale == dTO.Scale &&
+                   Cost == dTO.Cost &&
+                   Model == dTO.Model;
+        }
     }
 }
