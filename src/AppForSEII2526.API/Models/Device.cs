@@ -4,6 +4,17 @@
 
     public class Device
     {
+
+        public Device() { }
+
+        public Device(string description, string name, string quality, IList<PurchaseItem> purchaseItems)
+        {
+            Description = description;
+            Name = name;
+            Quality = quality;
+            PurchaseItems = purchaseItems;
+        }
+
         [StringLength(50, ErrorMessage = "Brand cannot be longer than 50 characters.", MinimumLength = 4)]
         public string Brand { get; set; }
 

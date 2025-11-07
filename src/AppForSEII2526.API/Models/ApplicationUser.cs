@@ -16,9 +16,7 @@ public class ApplicationUser : IdentityUser {
     public IList<Review> Review { get; set; }
     public IList<Receipt> Receipt { get; set; }
 
-    public ApplicationUser()
-    {
-    }
+    public ApplicationUser() { }
 
     public ApplicationUser(string customerUserName, string customerUserSurname, string? customerCountry)
     {
@@ -26,4 +24,5 @@ public class ApplicationUser : IdentityUser {
         CustomerUserSurname = customerUserSurname;
         CustomerCountry = customerCountry;
     }
+
 }
