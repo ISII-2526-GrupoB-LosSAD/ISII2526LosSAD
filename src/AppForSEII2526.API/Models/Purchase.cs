@@ -7,6 +7,17 @@
     }
     public class Purchase
     {
+
+        public Purchase() { }
+
+        public Purchase(string deliveryAddress, PurchasePaymentMethodTypes paymentMethod, ApplicationUser applicationUser)
+        {
+            PurchaseItems = new List<PurchaseItem>();
+            DeliveryAddress = deliveryAddress;
+            PaymentMethod = paymentMethod;
+            ApplicationUser = applicationUser;
+        }
+
         [DataType(System.ComponentModel.DataAnnotations.DataType.MultilineText)]
         [Display(Name = "Delivery Address")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "Please, set your address for delivery")]

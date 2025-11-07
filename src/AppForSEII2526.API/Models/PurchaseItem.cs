@@ -4,6 +4,24 @@
 
     public class PurchaseItem
     {
+
+        public PurchaseItem() { }
+
+        
+        public PurchaseItem( string? description, double price,int quantity, Device device, Purchase purchaseItem)
+        {
+             Description = description;
+
+            Price = price;
+
+            Quantity = quantity;
+
+            Device = Device;
+
+            Purchase = purchaseItem;
+            
+        }
+
         [StringLength(200, ErrorMessage = "Description cannot be longer than 200 characters.", MinimumLength = 4)]
         public string? Description { get; set; }
 
