@@ -1,4 +1,5 @@
-﻿namespace AppForSEII2526.API.Models
+﻿
+namespace AppForSEII2526.API.Models
 {
     public class Scale
     {//Creacion de la clase Scale con id como llave primaria y name como string
@@ -9,5 +10,13 @@
         public string Name { get; set; }
 
         public IList<Repair> Repairs { get; set; }
+
+        public override bool Equals(object? obj)
+        {
+            return obj is Scale scale &&
+                   Id == scale.Id &&
+                   Name == scale.Name &&
+                   EqualityComparer<IList<Repair>>.Default.Equals(Repairs, scale.Repairs);
+        }
     }
 }

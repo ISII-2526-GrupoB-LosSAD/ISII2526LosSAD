@@ -25,5 +25,33 @@
 
         public IList<Receiptitem> Receiptitems { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
+
+        public Receipt()
+        {
+        }
+
+        public Receipt(string deliveryAddress,DateTime receiptDate, ReceiptPaymentMethodTypes paymentMethod, IList<Receiptitem> receiptitems, ApplicationUser applicationUser)
+        {
+            DeliveryAddress = deliveryAddress;
+            ReceiptDate = receiptDate;
+            PaymentMethod = paymentMethod;
+            Receiptitems = receiptitems;
+            ApplicationUser = applicationUser;
+        }
+
+        public Receipt(string deliveryAddress, int id, ReceiptPaymentMethodTypes paymentMethod, DateTime receiptDate, double totalPrice, IList<Receiptitem> receiptitems)
+        {
+            DeliveryAddress = deliveryAddress;
+            Id = id;
+            PaymentMethod = paymentMethod;
+            ReceiptDate = receiptDate;
+            TotalPrice = totalPrice;
+            Receiptitems = receiptitems;
+        }
+
+        public Receipt(string deliveryAddress, int id, ReceiptPaymentMethodTypes paymentMethod, DateTime receiptDate, double totalPrice, IList<Receiptitem> receiptitems, ApplicationUser applicationUser) : this(deliveryAddress, id, paymentMethod, receiptDate, totalPrice, receiptitems)
+        {
+            ApplicationUser = applicationUser;
+        }
     }
 }

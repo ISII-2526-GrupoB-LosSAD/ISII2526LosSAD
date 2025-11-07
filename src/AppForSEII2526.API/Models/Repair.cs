@@ -20,5 +20,16 @@
         public Scale Scale { get; set; }
 
         public IList<Receiptitem> Receiptitems { get; set; }
+
+        public Repair()
+        {
+        }
+
+        public Repair(float cost, string name, Scale scale)
+        {
+            Cost = cost;
+            Name = name;
+            Scale = scale;
+        }
     }
 }

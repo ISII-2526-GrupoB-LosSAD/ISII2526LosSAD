@@ -2,6 +2,20 @@
 {
     public class Review
     {
+        public Review()
+        {
+        }
+
+        public Review( string reviewTitle,DateTime dateTime, IList<ReviewItem> reviewItems, ApplicationUser applicationUser)
+        {
+
+            
+            ReviewTitle = reviewTitle;
+            DateOfReview = dateTime;
+            ReviewItems = reviewItems;
+            ApplicationUser = applicationUser;
+        }
+
         public int CustomerId { get; set; }
         [DataType(System.ComponentModel.DataAnnotations.DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]

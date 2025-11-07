@@ -10,5 +10,25 @@
         public Receipt Receipt { get; set; }
         public int RepairId { get; set; }
         public Repair Repair { get; set; }
+
+        public Receiptitem()
+        {
+        }
+
+        public Receiptitem(string model,Receipt receipt ,Repair repairItem)
+        {
+            Model = model;
+            Receipt = receipt;
+            Repair = repairItem;
+        }
+
+        public Receiptitem(string model, int receiptId, Receipt receipt, int repairId, Repair repair)
+        {
+            Model = model;
+            ReceiptId = receiptId;
+            Receipt = receipt;
+            RepairId = repairId;
+            Repair = repair;
+        }
     }
 }
