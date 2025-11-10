@@ -19,5 +19,16 @@
             this.Color = color;
             this.Model = model;
         }
+
+        public override bool Equals(object? obj)
+        {
+            return obj is PurchaseItemDTO dTO &&
+                   Description == dTO.Description &&
+                   Price == dTO.Price &&
+                   Quantity == dTO.Quantity &&
+                   Brand == dTO.Brand &&
+                   Color == dTO.Color &&
+                   Model == dTO.Model;
+        }
     }
 }

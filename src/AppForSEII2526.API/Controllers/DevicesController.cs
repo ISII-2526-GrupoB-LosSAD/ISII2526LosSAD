@@ -1,13 +1,13 @@
 ﻿using AppForSEII2526.API.DTOs.DevicesDTO;
-using AppForSEII2526.API.Models;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-
 ﻿using AppForSEII2526.API.DTOS.DevicesDTO;
 using AppForSEII2526.API.Models;
+using AppForSEII2526.API.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Drawing.Drawing2D;
 using System.Linq;
 
 namespace AppForSEII2526.API.Controllers
@@ -49,7 +49,7 @@ namespace AppForSEII2526.API.Controllers
             var devices = await _context.Devices
                 .Include(d => d.Model)
                 .Where(d => (name == null || d.Name.Contains(name)) && (color == null || d.Color.Contains(color)))
-                .Select(d => new DevicesParaComprarDTO( d.Id, d.Name, d.priceForPurchase, d.Brand, d.Model.NameModel, d.Color ))
+                .Select(d => new DevicesParaComprarDTO(d.Id, d.Name, d.priceForPurchase, d.Brand, d.Model.NameModel, d.Color))
                 .ToListAsync();
             return Ok(devices);
 
@@ -58,7 +58,7 @@ namespace AppForSEII2526.API.Controllers
         [HttpGet]
         [Route("[action]")]
         [ProducesResponseType(typeof(IList<DevicesparareseniaDTO>), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult> GetDevicesparareseniaDTO(string? brand,int? year)
+        public async Task<ActionResult> GetDevicesparareseniaDTO(string? brand, int? year)
         {
             if (_context.Devices == null)
             {
@@ -69,10 +69,11 @@ namespace AppForSEII2526.API.Controllers
                 .Include(d => d.Model)
                  .Where(d => (brand == null || d.Brand.Contains(brand)))
                     .Where(d => (year == null || d.Year == year))
-                .Select(d => new DevicesparareseniaDTO(d.Id, d.Name,d.Brand,d.Color, d.Year, d.Model.NameModel))
+                .Select(d => new DevicesparareseniaDTO(d.Id, d.Name, d.Brand, d.Color, d.Year, d.Model.NameModel))
                 .ToListAsync();
             return Ok(device);
         }
+
 
     }
 }

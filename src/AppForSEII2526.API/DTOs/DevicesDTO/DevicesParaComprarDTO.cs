@@ -31,5 +31,16 @@
         public string Color { get; set; }
 
 
+        public override bool Equals(object? obj)
+        {
+            if (obj is not DevicesParaComprarDTO other) return false;
+            return Id == other.Id &&
+                   Name == other.Name &&
+                   Price == other.Price &&
+                   Brand == other.Brand &&
+                   Model == other.Model &&
+                   Color == other.Color;
+        }
+
     }
 }
