@@ -1,4 +1,7 @@
-﻿namespace AppForSEII2526.API.DTOs.ReviewDTOs
+﻿
+using Humanizer;
+
+namespace AppForSEII2526.API.DTOs.ReviewDTOs
 {
     public class ReviewDetailDTO
     {
@@ -17,6 +20,16 @@
             DateOfReview = dateOfReview;
             ReviewTitle = reviewTitle;
             ReviewItems = reviewItems;
+        }
+
+        public override bool Equals(object? obj)
+        {
+            return obj is ReviewDetailDTO dTO &&
+                   CustomerUserName == dTO.CustomerUserName &&
+                   CustomerCountry == dTO.CustomerCountry &&
+                   DateOfReview == dTO.DateOfReview &&
+                   ReviewTitle == dTO.ReviewTitle &&
+                   ReviewItems.SequenceEqual(dTO.ReviewItems);
         }
     }
 }
