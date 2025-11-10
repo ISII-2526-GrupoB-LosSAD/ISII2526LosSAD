@@ -15,6 +15,16 @@
             Device = device;
         }
 
+        public ReviewItem(string comments, int deviceId, Device device, int rating, int reviewId, Review review)
+        {
+            Comments = comments;
+            DeviceId = deviceId;
+            Device = device;
+            Rating = rating;
+            ReviewId = reviewId;
+            Review = review;
+        }
+
         [StringLength(100, ErrorMessage = "Comments cannot be longer than 100 characters.", MinimumLength = 4)]
         public string Comments { get; set; }
         public int DeviceId { get; set; }

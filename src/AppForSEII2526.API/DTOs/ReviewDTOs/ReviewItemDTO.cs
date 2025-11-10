@@ -18,5 +18,15 @@ namespace AppForSEII2526.API.DTOs.ReviewDTOs
             Rating = rating;
             Comments = comments;
         }
+
+        public override bool Equals(object? obj)
+        {
+            return obj is ReviewItemDTO dTO &&
+                   Name == dTO.Name &&
+                   Model == dTO.Model &&
+                   Year == dTO.Year &&
+                   Rating == dTO.Rating &&
+                   Comments == dTO.Comments;
+        }
     }
 }
