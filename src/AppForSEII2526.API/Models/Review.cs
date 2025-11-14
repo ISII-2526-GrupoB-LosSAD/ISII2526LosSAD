@@ -16,6 +16,17 @@
             ApplicationUser = applicationUser;
         }
 
+        public Review(int customerId, DateTime dateOfReview, int overallRating, int reviewId, string reviewTitle, IList<ReviewItem> reviewItems, ApplicationUser applicationUser)
+        {
+            CustomerId = customerId;
+            DateOfReview = dateOfReview;
+            OverallRating = overallRating;
+            ReviewId = reviewId;
+            ReviewTitle = reviewTitle;
+            ReviewItems = reviewItems;
+            ApplicationUser = applicationUser;
+        }
+
         public int CustomerId { get; set; }
         [DataType(System.ComponentModel.DataAnnotations.DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
