@@ -4,16 +4,18 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AppForSEII2526.API.Controllers
 {
+    // Controlador para operaciones relacionadas con reparaciones
     [Route("api/[controller]")]
     [ApiController]
     public class RepairsController : ControllerBase
     {
-        //used to enable your controller to access to the database
+        // Contexto de base de datos para acceder a las tablas
         private readonly ApplicationDbContext _context;
 
-        //used to log any information when your system is running
+        // Logger para registrar información y errores
         private readonly ILogger<RepairsController> _logger;
 
+        // Constructor con inyección de dependencias
         public RepairsController(ApplicationDbContext context, ILogger<RepairsController> logger)
         {
             _context = context;
@@ -34,17 +36,21 @@ namespace AppForSEII2526.API.Controllers
             decimal result = decimal.Round(op1 / op2, 2);
             return Ok(result);
         }
+
+        // Método GET para obtener dispositivos a reparar con filtros opcionales
         [HttpGet]
         [Route("[action]")]
         [ProducesResponseType(typeof(IList<RepairParaRepararDTO>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult> GetDevicesParaRepararDTO(string? name, string? scale)
         {
+            // Consulta a la BD con filtros por nombre y escala
             var device = await _context.Repairs
                 .Include(d=>d.Scale)
                 .Where(d => (name == null || d.Name.Contains(name)  ) && (scale == null|| d.Scale.Name.Contains(scale)))
                 .Select(d => new RepairParaRepararDTO(d.Id, d.Name, d.Scale.Name, d.Description, d.Cost
                 ))
                 .ToListAsync();
+            // Retorna lista de dispositivos encontrados
             return Ok(device);
         }
     }

@@ -16,10 +16,18 @@ public class ApplicationUser : IdentityUser {
     public IList<Review> Review { get; set; }
     public IList<Receipt> Receipt { get; set; }
 
-    public ApplicationUser() { }
-
+    public ApplicationUser()
+    {
+    }
     public ApplicationUser(string customerUserName, string customerUserSurname, string? customerCountry)
     {
+        CustomerUserName = customerUserName;
+        CustomerUserSurname = customerUserSurname;
+        CustomerCountry = customerCountry;
+    }
+    public ApplicationUser(string id, string customerUserName, string customerUserSurname, string? customerCountry)
+    {
+        Id = id; 
         CustomerUserName = customerUserName;
         CustomerUserSurname = customerUserSurname;
         CustomerCountry = customerCountry;
