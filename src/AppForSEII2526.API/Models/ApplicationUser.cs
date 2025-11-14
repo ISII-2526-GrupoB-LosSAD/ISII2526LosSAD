@@ -19,7 +19,12 @@ public class ApplicationUser : IdentityUser {
     public ApplicationUser()
     {
     }
-
+    public ApplicationUser(string customerUserName, string customerUserSurname, string? customerCountry)
+    {
+        CustomerUserName = customerUserName;
+        CustomerUserSurname = customerUserSurname;
+        CustomerCountry = customerCountry;
+    }
     public ApplicationUser(string id, string customerUserName, string customerUserSurname, string? customerCountry)
     {
         Id = id; 
