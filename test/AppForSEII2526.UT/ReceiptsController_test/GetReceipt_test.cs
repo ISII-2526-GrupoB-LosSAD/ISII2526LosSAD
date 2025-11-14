@@ -29,7 +29,7 @@ namespace AppForSEII2526.UT.ReceiptsController_test
             _context.AddRange(scale);
             _context.AddRange(repair);
 
-            ApplicationUser user = new ApplicationUser("Elena", "Navarro Martinez", "elena@uclm.es");
+            ApplicationUser user = new ApplicationUser("1","Elena", "Navarro Martinez", "España");
 
             // Creamos un recibo de ejemplo con una fecha, dirección, método de pago, precio y el usuario anterior
             var receipt = new Receipt("123 Main St", 1, ReceiptPaymentMethodTypes.CreditCard, new DateTime(2011, 10, 20), 150, new List<Receiptitem>(),user);
