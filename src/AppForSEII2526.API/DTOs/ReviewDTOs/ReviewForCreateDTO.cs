@@ -7,13 +7,12 @@ namespace AppForSEII2526.API.DTOs.ReviewDTOs
     {
         public ReviewForCreateDTO(string reviewTitle, string country, string? customerUserName, IList<ReviewItemDTO> reviewItems)
         {
-            ReviewTitle = reviewTitle ?? throw new ArgumentNullException(nameof(reviewTitle));
-            Country = country ?? throw new ArgumentNullException(nameof(country));
-            CustomerUserName = customerUserName ?? throw new ArgumentNullException(nameof(customerUserName));
-            
-           
-            ReviewItems = reviewItems ?? throw new ArgumentNullException(nameof(reviewItems));
+            ReviewTitle = reviewTitle;
+            Country = country;
+            CustomerUserName = customerUserName;
+            this.ReviewItems = reviewItems;
         }
+
         public ReviewForCreateDTO()
         {
            ReviewItems = new List<ReviewItemDTO>();

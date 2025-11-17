@@ -2,6 +2,8 @@
 {
     public class Model
     {
+       
+
         [Key]
         public int Id { get; set; }
 
