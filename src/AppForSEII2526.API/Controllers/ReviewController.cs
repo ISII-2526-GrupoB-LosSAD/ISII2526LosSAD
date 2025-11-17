@@ -67,6 +67,11 @@ namespace AppForSEII2526.API.Controllers
             // Verifica que al menos haya un item en la reseña
             if (reviewForCreate.ReviewItems.Count == 0)
                 ModelState.AddModelError("RentalItems", "Error! You must include at least one movie to be rented");
+
+            if (reviewForCreate.ReviewTitle == null)
+                ModelState.AddModelError("Title", "Error! Title is required");
+            if (reviewForCreate.Country == null)
+                ModelState.AddModelError("Country", "Error! Country is required");
             // if (!_context.ApplicationUsers.Any(au=>au.UserName==rentalForCreate.CustomerUserName))
             // Busca el usuario que hizo la reseña en la base de datos
             var user = _context.Users.FirstOrDefault(au => au.CustomerUserName == reviewForCreate.CustomerUserName);
@@ -85,7 +90,7 @@ namespace AppForSEII2526.API.Controllers
                 .ToList();
 
             // Crea una nueva reseña con la fecha actual, sin ítems aún
-            Review review = new Review(reviewForCreate.ReviewTitle,DateTime.Now, new List<ReviewItem>(), user );
+            Review review = new Review(reviewForCreate.ReviewTitle,DateTime.Today, new List<ReviewItem>(), user );
 
             // Recorre los ítems enviados desde el cliente
             foreach (var item in reviewForCreate.ReviewItems)
@@ -125,11 +130,6 @@ namespace AppForSEII2526.API.Controllers
             {
                 review.OverallRating = (int)Math.Round(review.ReviewItems.Average(ri => ri.Rating));
 
-            }
-            //le pones al customerId el id del usuario que hizo la reseña
-            if (user != null)
-            {
-                review.CustomerId = int.Parse(user.Id);
             }
             // Agrega la reseña al contexto de base de datos
             _context.Add(review);
