@@ -35,14 +35,5 @@
         [Required]
         public PurchasePaymentMethodTypes PaymentMethod { get; set; }
 
-
-        public override bool Equals(object? obj)
-        {
-            return obj is PurchaseForCreateDTO dTO &&
-                   CustomerUserName == dTO.CustomerUserName &&
-                   UserSurname == dTO.UserSurname &&
-                   DeliveryAddress == dTO.DeliveryAddress &&
-                   PaymentMethod == dTO.PaymentMethod;
-        }
     }
 }
