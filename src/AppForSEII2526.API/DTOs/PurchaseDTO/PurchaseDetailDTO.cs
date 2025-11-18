@@ -1,4 +1,7 @@
-﻿namespace AppForSEII2526.API.DTOs.PurchaseDTO
+﻿
+using AppForSEII2526.API.Models;
+
+namespace AppForSEII2526.API.DTOs.PurchaseDTO
 {
     public class PurchaseDetailDTO
     {
@@ -19,6 +22,17 @@
             this.TotalPrice = totalPrice;
             this.TotalQuantity = totalQuantity;
             this.PurchaseItems = PurchaseItems;
+        }
+
+        public override bool Equals(object? obj)
+        {
+            return obj is PurchaseDetailDTO dTO &&
+                   CostumerUserName == dTO.CostumerUserName &&
+                   DeliveryAddress == dTO.DeliveryAddress &&
+                   PurchaseDate == dTO.PurchaseDate &&
+                   TotalPrice == dTO.TotalPrice &&
+                   TotalQuantity == dTO.TotalQuantity &&
+                   PurchaseItems.SequenceEqual(dTO.PurchaseItems);
         }
     }
 }
