@@ -33,4 +33,9 @@ public class ApplicationUser : IdentityUser {
         CustomerCountry = customerCountry;
     }
 
+    public ApplicationUser(string customerUserName, string customerUserSurname)
+    {
+        CustomerUserName = customerUserName;
+        CustomerUserSurname = customerUserSurname;
+    }
 }

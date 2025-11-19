@@ -15,16 +15,16 @@ namespace AppForSEII2526.API.Controllers
         // registro de logs para seguimiento y depuración.
         private readonly ILogger<PurchaseController> _logger;
 
-        public PurchaseController(ApplicationDbContext context, ILogger<PurchaseController> logger)
+        public PurchaseController(ApplicationDbContext context, ILogger<PurchaseController> logger) // constructor del controlador
         {
             _context = context; // inyección de dependencia del contexto de base de datos
             _logger = logger; // inyección de dependencia del logger
         }
 
-        [HttpGet]
-        [Route("[action]")]
-        [ProducesResponseType(typeof(PurchaseDetailDTO), (int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [HttpGet] // acción HTTP GET, que se utiliza para obtener datos del servidor
+        [Route("[action]")] // la ruta de la acción será api/Purchase/GetPurchase
+        [ProducesResponseType(typeof(PurchaseDetailDTO), (int)HttpStatusCode.OK)] // indica que la respuesta exitosa devolverá un DTO de detalles de compra
+        [ProducesResponseType((int)HttpStatusCode.NotFound)] // indica que la respuesta puede devolver un estado 404 Not Found
         public async Task<ActionResult> GetPurchase(int id) // acción para obtener los detalles de una compra por su ID
         {
             if (_context.Purchases == null) // verifica si la tabla de compras existe
@@ -58,23 +58,31 @@ namespace AppForSEII2526.API.Controllers
             return Ok(purchase); // devuelve un estado 200 OK con los detalles de la compra
         }
 
-        [HttpPost]
-        [Route("[action]")]
-        [ProducesResponseType((int)HttpStatusCode.Created)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.Conflict)]
+        [HttpPost] // acción HTTP POST, que se utiliza para enviar datos al servidor
+        [Route("[action]")] // la ruta de la acción será api/Purchase/CreatePurchase
+        [ProducesResponseType((int)HttpStatusCode.Created)] // indica que la respuesta exitosa devolverá un estado 201 Created
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)] // indica que la respuesta puede devolver un estado 400 Bad Request
+        [ProducesResponseType((int)HttpStatusCode.Conflict)] // indica que la respuesta puede devolver un estado 409 Conflict
 
         public async Task<ActionResult> CreatePurchase(PurchaseForCreateDTO purchaseForCreate) // acción para crear una nueva compra
         {
-            // Validation logic would go here
+            // validaciones iniciales, asegurándose de que los datos proporcionados sean correctos
 
             if (purchaseForCreate.PurchaseItems.Count == 0) // verifica si se proporcionaron elementos de compra
                 ModelState.AddModelError("PurchaseItems", "Error! You must include at least one movie to be rented"); // agrega un error al estado del modelo si no hay elementos
 
-            // if (!_context.ApplicationUsers.Any(au=>au.UserName==rentalForCreate.CustomerUserName))
-            var user = _context.Users.FirstOrDefault(au => au.CustomerUserName == purchaseForCreate.CustomerUserName); // busca el usuario por su nombre de usuario
-            if (user == null)
-                ModelState.AddModelError("PurchaseApplicationUser", "Error! UserName is not registered");
+            if (purchaseForCreate.DeliveryAddress == null) // verifica si se proporcionó una dirección de entrega
+                ModelState.AddModelError("Delivery", "Error! Delivery address is required");
+
+            // Buscar usuario por nombre y apellido
+            var user = _context.Users.FirstOrDefault(au => au.CustomerUserName == purchaseForCreate.CustomerUserName); // busca el usuario por nombre
+
+            var surnameUser = _context.Users.FirstOrDefault(au => au.CustomerUserSurname == purchaseForCreate.UserSurname); // busca el usuario por apellido
+
+            if (user == null) // verifica si el usuario existe
+                ModelState.AddModelError("UserName", "Error! UserName is not registered");
+            if (surnameUser == null) // verifica si el usuario existe
+                ModelState.AddModelError("UserSurname", "Error! UserSurname is not registered");
 
             if (ModelState.ErrorCount > 0) // verifica si hay errores en el estado del modelo
                 return BadRequest(new ValidationProblemDetails(ModelState)); // devuelve un estado 400 Bad Request con los detalles de validación
@@ -82,7 +90,7 @@ namespace AppForSEII2526.API.Controllers
             var devicesTitles = purchaseForCreate.PurchaseItems.Select(ri => ri.Model).ToList<string>(); // obtiene los títulos de los dispositivos a comprar
 
             var devices = _context.Devices.Include(m => m.PurchaseItems) // consulta la tabla de dispositivos
-               //we use an anonymous type https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/types/anonymous-types
+               
                .Include(m => m.Model) // incluye el modelo de cada dispositivo
                 .Where(m => devicesTitles.Contains(m.Model.NameModel)) // filtra los dispositivos que coinciden con los títulos proporcionados
                 .ToList(); // convierte la consulta en una lista
@@ -107,10 +115,12 @@ namespace AppForSEII2526.API.Controllers
 
                 }
             }
-            
 
+            purchase.ReceiptDate = DateTime.Today; //  ESTABLECE LA FECHA ACTUAL
+            purchase.TotalQuantity = purchase.PurchaseItems.Sum(item => item.Quantity); // calcula la cantidad total de elementos en la compra
+            purchase.TotalPrice = purchase.PurchaseItems.Sum(item => item.Quantity * item.Price); // calcula el precio total de la compra
 
-            //if there is any problem because of the available quantity of movies or because the movie does not exist
+            // esto es para validar si se han agregado errores en el proceso anterior
             if (ModelState.ErrorCount > 0) // verifica si hay errores en el estado del modelo
             {
                 return BadRequest(new ValidationProblemDetails(ModelState));
