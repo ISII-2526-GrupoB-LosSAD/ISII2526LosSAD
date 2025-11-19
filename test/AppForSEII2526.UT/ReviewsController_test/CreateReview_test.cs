@@ -13,8 +13,10 @@ using System.Threading.Tasks;
 
 namespace AppForSEII2526.UT.ReviewsController_test
 {
+    // Clase de pruebas unitarias para el controlador ReviewsController
     public class CreateReview_test : AppForSEII25264SqliteUT
     {
+        //  Variables constantes usadas en los tests
         private const string _CustomerUserName1 = "Elena";
         private const string _CustomerUserSurname1 = "Navarro Martinez";
         private const string _DeliveryAddress1 = "123 Main St";
@@ -24,39 +26,46 @@ namespace AppForSEII2526.UT.ReviewsController_test
         private const string _ReviewTitle1 = "Excellent Performance";
         private const string _ReviewTitle2 = "Title2";
 
+        // Guardamos la fecha actual para los tests
         public DateTime today = DateTime.Today;
 
+        // Constructor: inicializa los datos base de prueba
         public CreateReview_test()
         {
 
+            // Se crean diferentes modelos de dispositivos
             var models = new List<Model>() {
                 new Model{ NameModel= "Model A" },
                 new Model{ NameModel= "Model B" },
             };
 
+            // Se crean diferentes dispositivos asociados a los modelos
             var devices = new List<Device>(){
                 new Device{ Name= "Device A1", Quality= "High", Year=2022, Brand="BrandA", Color="Black", Description="DescriptionA", priceForPurchase=500, priceForRent=50, quauntityForPurchase=10, quauntityForRent=5, Model=models[0]},
                 new Device{ Name= "Device B1", Quality= "Medium", Year=2021, Brand="BrandB", Color="White", Description="DescriptionB", priceForPurchase=300, priceForRent=30, quauntityForPurchase=8, quauntityForRent=4, Model=models[1]},
                 new Device{ Name= "Device A2", Quality= "Low", Year=2020, Brand="BrandA", Color="Blue", Description="DescriptionC", priceForPurchase=200, priceForRent=20, quauntityForPurchase=5, quauntityForRent=2, Model=models[0]},
             };
+
+            // Se añaden los modelos y dispositivos al contexto (base de datos en memoria)
             _context.AddRange(models);
             _context.AddRange(devices);
 
+            // Se crea un usuario de aplicación
             ApplicationUser user = new ApplicationUser(_CustomerUserName1, _CustomerUserSurname1, _Country);
             _context.Add(user);
 
-
+            // Se crea una review de ejemplo asociada al usuario
             var review = new Review (1, today, 5, 1, "Good", new List<ReviewItem>(), user);
-
+            // Se añade un ítem a la review
             review.ReviewItems.Add(new ReviewItem( "Great device!", devices[0].Id, devices[0] ,4, review.ReviewId, review));
 
-            
-            
+
+            // Se añade la review al contexto
             _context.Add(review);
             _context.SaveChanges();
         }
 
-        public static IEnumerable<object[]> TestCasesFor_CreateReview()
+        public static IEnumerable<object[]> TestCasesFor_CreateReview() //Casos de prueba con errores esperados
         {
             // Lista de ítems de ejemplo que se incluyen en los recibos
             IList<ReviewItemDTO> Reviewitems = new List<ReviewItemDTO>() {
@@ -67,6 +76,7 @@ namespace AppForSEII2526.UT.ReviewsController_test
             ReviewForCreateDTO reviewNoTitle = new ReviewForCreateDTO(null, _Country, null, Reviewitems
             );
 
+            // Caso con país nulo
             ReviewForCreateDTO receiptNoCountry = new ReviewForCreateDTO(
                 _ReviewTitle2, null, null, Reviewitems
             );

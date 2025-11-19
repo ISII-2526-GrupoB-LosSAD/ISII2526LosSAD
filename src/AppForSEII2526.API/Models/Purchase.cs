@@ -18,6 +18,18 @@
             ApplicationUser = applicationUser;
         }
 
+        public Purchase(string deliveryAddress, int id, double totalPrice, int totalQuantity, PurchasePaymentMethodTypes paymentMethod, DateTime receiptDate, IList<PurchaseItem> purchaseItems, ApplicationUser applicationUser)
+        {
+            DeliveryAddress = deliveryAddress;
+            Id = id;
+            TotalPrice = totalPrice;
+            TotalQuantity = totalQuantity;
+            PaymentMethod = paymentMethod;
+            ReceiptDate = receiptDate;
+            PurchaseItems = purchaseItems;
+            ApplicationUser = applicationUser;
+        }
+
         [DataType(System.ComponentModel.DataAnnotations.DataType.MultilineText)]
         [Display(Name = "Delivery Address")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "Please, set your address for delivery")]

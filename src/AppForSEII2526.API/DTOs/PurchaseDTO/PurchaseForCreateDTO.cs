@@ -2,6 +2,7 @@
 {
     public class PurchaseForCreateDTO
     {
+   
         public PurchaseForCreateDTO(string customerUserName, string userSurname, string deliveryAddress, PurchasePaymentMethodTypes paymentMethod)
         {
             
@@ -15,6 +16,15 @@
         public PurchaseForCreateDTO()
         {
             PurchaseItems = new List<PurchaseItemDTO>();
+        }
+
+        public PurchaseForCreateDTO(string customerUserName, string userSurname, string deliveryAddress, PurchasePaymentMethodTypes paymentMethod, IList<PurchaseItemDTO> purchaseItems)
+        {
+            this.PurchaseItems = purchaseItems;
+            CustomerUserName = customerUserName;
+            UserSurname = userSurname;
+            DeliveryAddress = deliveryAddress;
+            this.PaymentMethod = paymentMethod;
         }
 
         public IList<PurchaseItemDTO> PurchaseItems { get; set; }
@@ -34,6 +44,7 @@
         [Display(Name = "Payment Method")]
         [Required]
         public PurchasePaymentMethodTypes PaymentMethod { get; set; }
+
 
     }
 }

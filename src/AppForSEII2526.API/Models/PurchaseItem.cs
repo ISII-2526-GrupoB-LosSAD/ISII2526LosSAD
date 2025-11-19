@@ -7,7 +7,7 @@
 
         public PurchaseItem() { }
 
-        
+
         public PurchaseItem( string? description, double price,int quantity, Device device, Purchase purchaseItem)
         {
              Description = description;
@@ -20,6 +20,18 @@
 
             Purchase = purchaseItem;
             
+        }
+
+        public PurchaseItem(string? description, int purchaseId, Purchase purchase, int deviceId, Device device, int quantity, double price)
+        {
+            Description = description;
+            PurchaseId = purchaseId;
+            Purchase = purchase;
+            DeviceId = deviceId;
+            Device = device;
+            Quantity = quantity;
+            Price = price;
+             
         }
 
         [StringLength(200, ErrorMessage = "Description cannot be longer than 200 characters.", MinimumLength = 4)]
