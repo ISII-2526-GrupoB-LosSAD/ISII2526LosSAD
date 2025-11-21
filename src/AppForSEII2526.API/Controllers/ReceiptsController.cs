@@ -2,6 +2,7 @@
 using AppForSEII2526.API.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Query.Internal;
 
 namespace AppForSEII2526.API.Controllers
 {
@@ -71,15 +72,18 @@ namespace AppForSEII2526.API.Controllers
         [ProducesResponseType(typeof(ReceiptDetailDTO), (int)HttpStatusCode.Created)]
         [ProducesResponseType(typeof(ValidationProblemDetails), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.Conflict)]
-        public async Task<ActionResult>CreateRepair(ReceiptForCreateDTO receiptForCreate)
+        public async Task<ActionResult> CreateRepair(ReceiptForCreateDTO receiptForCreate)
         {
             // Validaciones iniciales de modelo
             if (receiptForCreate.receiptItems.Count == 0)
                 ModelState.AddModelError("ReceiptItems", "Error! You must include at least one receipt to be repeared");
 
-            if (receiptForCreate.DeliveryAddress == null )
-                ModelState.AddModelError("DeliveryAddress", "Error! Delivery address is required");
-
+            if (receiptForCreate.DeliveryAddress == null) { 
+                ModelState.AddModelError("DeliveryAddress", "Error! Delivery address is required"); }
+            else if (!(receiptForCreate.DeliveryAddress.Contains("Calle") || receiptForCreate.DeliveryAddress.Contains("Avenida")))
+            {
+                ModelState.AddModelError("DeliveryAddress", "Error en la dirección de envío. Por favor, introduce una dirección válida incluyendo las palabras Calle o Avenida");
+            }
             // Buscar usuario por nombre y apellido
             var user = _context.Users.FirstOrDefault(au => au.CustomerUserName == receiptForCreate.CustomerUserName);
             var surnameUser = _context.Users.FirstOrDefault(au => au.CustomerUserSurname == receiptForCreate.CustomerUserSurname);
