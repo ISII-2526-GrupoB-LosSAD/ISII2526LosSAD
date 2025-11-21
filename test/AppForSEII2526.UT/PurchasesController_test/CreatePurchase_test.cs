@@ -73,9 +73,13 @@ namespace AppForSEII2526.UT.PurchasesController_test
         public static IEnumerable<object[]> TestCasesFor_CreatePurchase() // Datos de prueba para casos con errores
         {
             // Lista de ítems de ejemplo válidos
-            IList<PurchaseItemDTO> ValidPurchaseitems = new List<PurchaseItemDTO>() {
+            IList<PurchaseItemDTO> ValidPurchaseitems1 = new List<PurchaseItemDTO>() {
                 new PurchaseItemDTO("DescriptionA" ,500, 2, "BrandA", "Black", "Model A")
+            }; 
+            IList<PurchaseItemDTO> ValidPurchaseitems2 = new List<PurchaseItemDTO>() {
+                new PurchaseItemDTO("DescriptionA" ,500, 2, "Huawei", "Black", "Model B")
             };
+
 
             // Casos de prueba:
 
@@ -84,23 +88,30 @@ namespace AppForSEII2526.UT.PurchasesController_test
                 _CustomerUserName2, _CustomerUserSurname1, _DeliveryAddress1,
                 PurchasePaymentMethodTypes.CreditCard
             )
-            { PurchaseItems = ValidPurchaseitems }; // <<-- ASIGNACIÓN AÑADIDA
+            { PurchaseItems = ValidPurchaseitems1 }; // <<-- ASIGNACIÓN AÑADIDA
 
             // Caso 2: Apellido de usuario no registrado
             PurchaseForCreateDTO purchaseNoSurname = new PurchaseForCreateDTO(
                 _CustomerUserName1, _CustomerUserSurname2, _DeliveryAddress1,
                 PurchasePaymentMethodTypes.CreditCard
             )
-            { PurchaseItems = ValidPurchaseitems }; // <<-- ASIGNACIÓN AÑADIDA
+            { PurchaseItems = ValidPurchaseitems1 }; // <<-- ASIGNACIÓN AÑADIDA
 
             // Caso 3: Dirección de entrega nula
             PurchaseForCreateDTO purchaseNoAddress = new PurchaseForCreateDTO(
                 _CustomerUserName1, _CustomerUserSurname1, null,
                 PurchasePaymentMethodTypes.CreditCard
             )
-            { PurchaseItems = ValidPurchaseitems }; // <<-- ASIGNACIÓN AÑADIDA
+            { PurchaseItems = ValidPurchaseitems1 }; // <<-- ASIGNACIÓN AÑADIDA
 
-            
+
+            //modificacion examen
+            PurchaseForCreateDTO purchaseMarca = new PurchaseForCreateDTO(
+               _CustomerUserName1, _CustomerUserSurname1, _DeliveryAddress1,
+                PurchasePaymentMethodTypes.CreditCard
+            )
+            {PurchaseItems = ValidPurchaseitems2}; // <<- nueva asignacion examen
+           
 
             // Se definen los errores esperados para cada caso
             var allTests = new List<object[]>
@@ -108,6 +119,7 @@ namespace AppForSEII2526.UT.PurchasesController_test
                 new object[] { purchaseNoName, "Error! UserName is not registered" },
                 new object[] { purchaseNoSurname, "Error! UserSurname is not registered" },
                 new object[] { purchaseNoAddress, "Error! Delivery address is required" },
+                new object[] { purchaseMarca, "Error, marca o modelo contiene Xiaomi o Huawei "}
             };
 
             return allTests; // Devuelve la lista de casos de prueba
