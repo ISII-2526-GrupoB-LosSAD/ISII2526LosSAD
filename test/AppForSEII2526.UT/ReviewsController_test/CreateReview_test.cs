@@ -71,6 +71,10 @@ namespace AppForSEII2526.UT.ReviewsController_test
             IList<ReviewItemDTO> Reviewitems = new List<ReviewItemDTO>() {
                 new ReviewItemDTO("Device A1","Model A",2022,4,"Muy eficiente")
             };
+            IList<ReviewItemDTO> Reviewitems2 = new List<ReviewItemDTO>() {
+                new ReviewItemDTO("Device A1","Model A",2022,4,"hola")
+            };
+            
 
             // Casos de prueba: recibos con errores (titulo, pais)
             ReviewForCreateDTO reviewNoTitle = new ReviewForCreateDTO(null, _Country, null, Reviewitems
@@ -80,14 +84,18 @@ namespace AppForSEII2526.UT.ReviewsController_test
             ReviewForCreateDTO receiptNoCountry = new ReviewForCreateDTO(
                 _ReviewTitle2, null, null, Reviewitems
             );
-            
 
+            ReviewForCreateDTO reviewpararese = new ReviewForCreateDTO(
+                _ReviewTitle2, _Country, null, Reviewitems
+            );
+           
 
             // Se definen los errores esperados para cada caso
             var allTests = new List<object[]>
             {
                 new object[] { reviewNoTitle, "Error! Title is required" },
                 new object[] { receiptNoCountry, "Error! Country is required" },
+                new object[] { reviewpararese , "Error! El comentario de la reseña: debe empezar por Reseña para"}
             };
 
             return allTests;
@@ -141,7 +149,7 @@ namespace AppForSEII2526.UT.ReviewsController_test
 
             // Se añade un ítem al recibo
             reviewDTO.ReviewItems.Add(
-                new ReviewItemDTO("Device A1", "Model A", 2022, 5, "Excellent Performance")
+                new ReviewItemDTO("Device A1", "Model A", 2022, 5, "Reseña para")
             );
 
             // Se define el resultado esperado del recibo creado
@@ -153,7 +161,7 @@ namespace AppForSEII2526.UT.ReviewsController_test
                 _ReviewTitle1,
                 new List<ReviewItemDTO>()
                 {
-                    new ReviewItemDTO("Device A1", "Model A", 2022, 5, "Excellent Performance")
+                    new ReviewItemDTO("Device A1", "Model A", 2022, 5, "Reseña para")
                 }
             );
 

@@ -104,11 +104,18 @@ namespace AppForSEII2526.API.Controllers
                     ModelState.AddModelError("RentalItems", $"Error! Device titled '{item.Name}' is not available for being review");
                 }
                 else
-                {   // Comprueba que hay comentarios calificación, mirando que sean validos
-                    if (string.IsNullOrWhiteSpace(item.Comments) || item.Comments.Length < 4)
+                {
+                    if (!item.Comments.StartsWith("Reseña para") || item.Comments == null)
+                    {
+                        ModelState.AddModelError("ReviewItems", $"Error! El comentario de la reseña: debe empezar por Reseña para");
+                    }
+
+                    // Comprueba que hay comentarios calificación, mirando que sean validos
+                    if (item.Comments.Length < 4 || item.Comments=="" )
                     {
                         ModelState.AddModelError("ReviewItems", $"Error! You must provide a comment (minimum 4 characters) for device '{item.Name}'");
                     }
+
 
                     if (item.Rating < 1 || item.Rating > 5)
                     {
