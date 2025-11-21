@@ -109,6 +109,11 @@ namespace AppForSEII2526.API.Controllers
                 }
                 else
                 {
+                    //modificacion examen sprint2
+                    if ( item.Model.Contains("Xiaomi") || item.Model.Contains("Huawei") ||  item.Brand.Contains("Xiaomi") || item.Brand.Contains("Huawei" ) )
+                        ModelState.AddModelError("Purchase", "Error, marca o modelo contiene Xiaomi o Huawei ");
+                    
+
                     var newItem = new PurchaseItem(item.Description, item.Price, item.Quantity, purchaseItem, purchase); // crea un nuevo elemento de compra
                     newItem.DeviceId = purchaseItem.Id; // asigna el ID del dispositivo al elemento de compra
                     purchase.PurchaseItems.Add(newItem); // agrega el elemento de compra a la compra
