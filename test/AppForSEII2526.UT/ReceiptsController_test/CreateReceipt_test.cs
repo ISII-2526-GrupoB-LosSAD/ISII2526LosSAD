@@ -15,7 +15,8 @@ namespace AppForSEII2526.UT.ReceiptsController_test
         //  Variables constantes usadas en los tests
         private const string _CustomerUserName1 = "Elena";
         private const string _CustomerUserSurname1 = "Navarro Martinez";
-        private const string _DeliveryAddress1 = "123 Main St";
+        private const string _DeliveryAddress1 = "Calle Gran Vía 14, Madrid";
+        private const string _DeliveryAddress2 = "123 Main St";
         private const string _CustomerUserName2 = "Sandra";
         private const string _CustomerUserSurname2 = "Garcia Alcolea";
         private const string _Country = "España";
@@ -94,6 +95,10 @@ namespace AppForSEII2526.UT.ReceiptsController_test
                 _CustomerUserName1, _CustomerUserSurname1, null,
                 ReceiptPaymentMethodTypes.CreditCard, Receiptitems
             );
+            ReceiptForCreateDTO receiptIncorrectAddress = new ReceiptForCreateDTO(
+                _CustomerUserName1, _CustomerUserSurname1, _DeliveryAddress2,
+                ReceiptPaymentMethodTypes.CreditCard, Receiptitems
+            );
 
             // Se definen los errores esperados para cada caso
             var allTests = new List<object[]>
@@ -101,6 +106,7 @@ namespace AppForSEII2526.UT.ReceiptsController_test
                 new object[] { receiptNoName, "Error! UserName is not registered" },
                 new object[] { receiptNoSurname, "Error! UserSurname is not registered" },
                 new object[] { receiptNoAddress, "Error! Delivery address is required" },
+                new object[] { receiptIncorrectAddress, "Error en la dirección de envío. Por favor, introduce una dirección válida incluyendo las palabras Calle o Avenida" },
             };
 
             return allTests;
