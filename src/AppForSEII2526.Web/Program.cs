@@ -1,5 +1,6 @@
 using AppForSEII2526.Web;
 using AppForSEII2526.Web.API;
+using AppForSEII2526.Web;
 using AppForSEII2526.Web.Components;
 using AppForSEII2526.Web.Components.Account;
 using AppForSEII2526.Web.Data;
@@ -44,6 +45,10 @@ string? URI2API = builder.Configuration.GetValue(typeof(string), "AppForDevices_
 builder.Services.AddScoped<AppForDevicesAPIClient>(sp => new AppForDevicesAPIClient(URI2API, new HttpClient()));
 
 builder.Services.AddScoped<ReviewStateContainer>();
+
+//adding an In-memory state container service
+//https://learn.microsoft.com/en-us/aspnet/core/blazor/state-management/?view=aspnetcore-8.0#in-memory-state-container-service
+builder.Services.AddScoped<ReceiptStateContainer>();
 
 var app = builder.Build();
 
