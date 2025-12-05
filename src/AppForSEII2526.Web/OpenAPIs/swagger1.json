@@ -1158,6 +1158,10 @@
               "$ref": "#/components/schemas/ReviewItemDTO"
             },
             "nullable": true
+          },
+          "reviewDate": {
+            "type": "string",
+            "format": "date-time"
           }
         },
         "additionalProperties": false
@@ -1184,6 +1188,10 @@
           "comments": {
             "type": "string",
             "nullable": true
+          },
+          "deviceId": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false
