@@ -1,0 +1,157 @@
+﻿@page "/receipt/selectRepairForReceipt"
+
+@using Microsoft.AspNetCore.Authorization
+@using AppForSEII2526.Web.API
+@inject AppForDevicesAPIClient apiclient
+@inject ILogger<SelectRepairForReceipt> logger
+@inject ReceiptStateContainer receiptState
+@inject NavigationManager navigation
+
+<h3>SelectRepairForReceipt</h3>
+<div class="container-fluid">
+    <div class="row alert alert-danger" role="alert" hidden="@hideErrors">
+        <p id="ErrorsShown">Errors: @errors</p>
+    </div>
+    <div class="row">
+        <div class="col-8">
+            <div class="row">
+                <div class="col">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">Name</span>
+                        <input type="text" id="inputName" @bind=repairName class="form-control" placeholder="Name" aria-label="Name" aria-describedby="basic-addon1">
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">Scale</span>
+                        <select class="form-select" aria-label="Default select" @bind="repairScaleSelected" id="selectScale">
+                            <option value="All" selected>All</option>
+                            @foreach (string scaleName in scalesNames)
+                            {
+                                <option value="@scaleName" id="genreNameSelected_@scaleName">@scaleName</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="col">
+                    <button type="button" class="btn btn-primary" @onclick=@SearchRepairs id="searchRepairs">Search repairs</button>
+                </div>
+            </div>
+            <div class="row">
+                @if (repairs == null)
+                {
+                    <p>Loading repairs....</p>
+                }
+                else
+                {
+                    <div class="mh-100 table-responsive">
+                        <table class="table table-condensed table-hover" id="TableOfRepairs">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Scale</th>
+                                    <th>Description</th>
+                                    <th>Price</th>
+                                    <th>Add Cart</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var repair in repairs)
+                                {
+                                    <tr id="MovieData_@repair.Name">
+                                        <td>@repair.Name</td>
+                                        <td>@repair.Scale</td>
+                                        <td>@repair.Description</td>
+                                        <td>@repair.Cost</td>
+                                        <td>
+                                            <button class="btn btn-outline-secondary" id="repairToReceipt_@repair.Name" @onclick="@(() => AddRepair(repair))">Add</button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="col-2" hidden="@hideReceiptRepair">
+            <div class="row">
+                <h3>List of repairs</h3>
+            </div>
+            @foreach (ReceiptitemDTO item in receipt.ReceiptItems)
+            {
+                <div class="row">
+                    <button type="button" class="btn btn-light" id="removeReapir_@item.Name" @onclick="@(() => RemoveReceiptItem(item))">x @item.Name - @item.Scale€</button>
+                </div>
+            }
+            <div class="row">
+                <button type="button" class="btn btn-primary" id="receiptRepairButton" @onclick=@ReceiptRepair>Receipt  repair</button>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+@code {
+    private string repairScaleSelected;
+    private ICollection<string>? scalesNames = new List<string>();
+    private bool hideReceiptRepair { get { return receipt.ReceiptItems.Count == 0; } }
+    private ICollection<RepairParaRepararDTO> repairs;
+    private bool hideErrors { get { return errors.Length == 0; } }
+    private string errors = "";
+    private string repairName { get; set; }
+    private string Scale { get; set; }
+
+    private ReceiptForCreateDTO receipt => receiptState.Receipt;
+
+    private bool hiddenReceiptRepair = true;
+
+    private void AddRepair(RepairParaRepararDTO repair)
+    {
+        receiptState.AddReceiptToRepair(repair);
+    }
+
+    private void RemoveReceiptItem(ReceiptitemDTO item)
+    {
+        receiptState.RemoveReceiptItemToRepair(item);
+        if (receipt.ReceiptItems.Count == 0) hiddenReceiptRepair = true;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            scalesNames = await apiclient.GetScalesAsync(null);
+        }
+        catch (ApiException ex)
+        {
+            if (scalesNames == null) scalesNames = new List<string>() { "All", };
+            logger.LogError("Error! There was an error while connecting to the GetGenresAsync service");
+        }
+
+        SearchRepairs();
+    }
+
+    public async void SearchRepairs()
+    {
+        Scale = repairScaleSelected == "All" ? null : repairScaleSelected;
+        try
+        {
+            repairs = await apiclient.GetDevicesParaRepararDTOAsync(repairName, Scale);
+
+        }
+        catch (ApiException ex)
+        {
+            logger.LogError($"{DateTime.Now} Error: {ex}");
+            errors = "Error while connecting to the system";
+        }
+        StateHasChanged();
+    }
+    
+    private void ReceiptRepair()
+    {
+        navigation.NavigateTo("/receipt/confirm");
+    }
+
+}

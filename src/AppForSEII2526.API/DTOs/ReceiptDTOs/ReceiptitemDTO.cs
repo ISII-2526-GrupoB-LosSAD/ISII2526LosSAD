@@ -2,6 +2,7 @@
 {
     public class ReceiptitemDTO
     {
+        public int RepairID { get; set; }
         public string Name { get; set; }
         public string Scale { get; set; }
         public float Cost { get; set; }
@@ -12,6 +13,15 @@
             this.Scale = Scale;
             this.Cost = Cost;
             this.Model = Model;
+        }
+
+        public ReceiptitemDTO(int repairID, string name, string scale, float cost, string model)
+        {
+            RepairID = repairID;
+            Name = name;
+            Scale = scale;
+            Cost = cost;
+            Model = model;
         }
 
         public override bool Equals(object? obj)
