@@ -29,8 +29,8 @@ namespace AppForSEII2526.Web
                     Name = device.Name,
                     Model = device.Model,
                     Year = device.Year,
-                    Rating = 1,
-                    Comments = "Locurote"
+                    Rating = 5,
+                    Comments = "Muy bueno"
                 }
             );
 
