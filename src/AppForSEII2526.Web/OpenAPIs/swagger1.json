@@ -1155,6 +1155,10 @@
       "ReviewDetailDTO": {
         "type": "object",
         "properties": {
+          "reviewId": {
+            "type": "integer",
+            "format": "int32"
+          },
           "customerUserName": {
             "type": "string",
             "nullable": true

@@ -42,12 +42,12 @@
                 else
                 {
                     <div class="mh-100 table-responsive">
-                        <table class="table table-condensed table-hover" id="TableOfMovies">
+                        <table class="table table-condensed table-hover" id="TableOfDevices">
                             <thead>
                                 <tr>
+                                    <th>Brand</th>
                                     <th>Color</th>
                                     <th>Name</th>
-                                    <th>Brand</th>
                                     <th>Year</th>
                                     <th>Model</th>
                                     <th>Añadir a carrito</th>
@@ -56,15 +56,14 @@
                             <tbody>
                                 @foreach (var device in devices)
                                 {
-                                    <tr id="DeviceData_@device.Name">
-                                        <td>@device.Name</td>
+                                    <tr id="DeviceData_@device.Id">
                                         <td>@device.Brand</td>
                                         <td>@device.Color</td>
+                                        <td>@device.Name</td>
                                         <td>@device.Year</td>
                                         <td>@device.Model</td>
-                                        
                                         <td>
-                                            <button class="btn btn-outline-secondary" id="deviceToReview_@device.Name" @onclick="@(() => AddDevice(device))">Add</button>
+                                            <button class="btn btn-outline-secondary" id="deviceToReview_@device.Id" @onclick="@(() => AddDevice(device))">Add</button>
                                         </td>
                                     </tr>
                                 }
@@ -141,7 +140,7 @@
     }
     private void ReviewDevices()
     {
-        navigation.NavigateTo("/rentals/createrental");
+        navigation.NavigateTo("/review/createreview");
     }
 
     private DateTime _to;

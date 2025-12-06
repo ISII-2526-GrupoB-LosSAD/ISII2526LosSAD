@@ -5,6 +5,7 @@ namespace AppForSEII2526.API.DTOs.ReviewDTOs
 {
     public class ReviewDetailDTO
     {
+        public int ReviewId { get; set; }
         public string CustomerUserName { get; set; }
         public string CustomerCountry { get; set; }
 
