@@ -22,27 +22,27 @@ namespace AppForSEII2526.UT.ReviewsController_test
             var devices = new List<Device>()
             {
                 new Device {
-                        Name = "Galaxy S24 Ultra",
                         Brand = "Samsung",
                         Color = "Black",
+                        Name = "Galaxy S24 Ultra",
                         Description = "High-end Android smartphone with dynamic AMOLED display",
                         Quality = "A+",
                         Year = 2023,
                         Model = models[0]
                     },
                     new Device {
-                        Name = "iPhone 15 Pro Max",
                         Brand = "Apple",
                         Color = "Silver",
+                        Name = "iPhone 15 Pro Max",
                         Description = "Flagship iOS smartphone with advanced camera system",
                         Quality = "A+",
                         Year = 2024,
                         Model = models[1]
                     },
                     new Device {
-                        Name = "Pixel 8 Pro",
                         Brand = "Google",
                         Color = "Blue",
+                        Name = "Pixel 8 Pro",
                         Description = "Google’s latest smartphone featuring Tensor G3 processor",
                         Quality = "A",
                         Year = 2025,
