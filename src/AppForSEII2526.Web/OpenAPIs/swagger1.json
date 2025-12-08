@@ -1163,7 +1163,7 @@
             "type": "string",
             "nullable": true
           },
-          "customerCountry": {
+          "country": {
             "type": "string",
             "nullable": true
           },
