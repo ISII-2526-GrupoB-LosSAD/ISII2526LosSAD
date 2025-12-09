@@ -40,7 +40,7 @@ namespace AppForSEII2526.API.Controllers
                         .ThenInclude(ri => ri.Device) // Incluye el dispositivo reseñado
                             .ThenInclude(rep => rep.Model)// Incluye el modelo del dispositivo
                  // Proyecta los datos a un DTO (objeto simplificado para enviar al cliente)
-                .Select(r => new ReviewDetailDTO(r.ApplicationUser.CustomerUserName, r.ApplicationUser.CustomerCountry, r.DateOfReview, r.ReviewTitle,
+                .Select(r => new ReviewDetailDTO(r.ReviewId,r.ApplicationUser.CustomerUserName, r.ApplicationUser.CustomerCountry, r.DateOfReview, r.ReviewTitle,
                     r.ReviewItems.Select(ri => new ReviewItemDTO(
                         ri.Device.Name, ri.Device.Model.NameModel, ri.Device.Year, ri.Rating, ri.Comments))
                     .ToList<ReviewItemDTO>()
@@ -158,6 +158,7 @@ namespace AppForSEII2526.API.Controllers
             //it returns reviewDetail
             // Crea un objeto DTO con los detalles de la reseña creada
             var reviewDetail = new ReviewDetailDTO(
+                review.ReviewId,
                 reviewForCreate.CustomerUserName, 
                 reviewForCreate.Country,
                 review.DateOfReview, 

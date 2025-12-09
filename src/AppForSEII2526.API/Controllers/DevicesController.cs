@@ -69,7 +69,7 @@ namespace AppForSEII2526.API.Controllers
                 .Include(d => d.Model)
                  .Where(d => (brand == null || d.Brand.Contains(brand)))
                     .Where(d => (year == null || d.Year == year))
-                .Select(d => new DevicesparareseniaDTO(d.Id, d.Name, d.Brand, d.Color, d.Year, d.Model.NameModel))
+                .Select(d => new DevicesparareseniaDTO(d.Id,  d.Brand, d.Color, d.Name, d.Year, d.Model.NameModel))
                 .ToListAsync();
             return Ok(device);
         }

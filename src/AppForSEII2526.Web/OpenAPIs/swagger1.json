@@ -751,6 +751,54 @@
           }
         }
       }
+    },
+    "/GetScales": {
+      "get": {
+        "tags": [
+          "Scales"
+        ],
+        "operationId": "GetScales",
+        "parameters": [
+          {
+            "name": "scaleName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1061,6 +1109,10 @@
       "ReceiptitemDTO": {
         "type": "object",
         "properties": {
+          "repairID": {
+            "type": "integer",
+            "format": "int32"
+          },
           "name": {
             "type": "string",
             "nullable": true
@@ -1115,11 +1167,15 @@
       "ReviewDetailDTO": {
         "type": "object",
         "properties": {
+          "reviewId": {
+            "type": "integer",
+            "format": "int32"
+          },
           "customerUserName": {
             "type": "string",
             "nullable": true
           },
-          "customerCountry": {
+          "country": {
             "type": "string",
             "nullable": true
           },
@@ -1170,6 +1226,10 @@
               "$ref": "#/components/schemas/ReviewItemDTO"
             },
             "nullable": true
+          },
+          "reviewDate": {
+            "type": "string",
+            "format": "date-time"
           }
         },
         "additionalProperties": false
@@ -1196,6 +1256,10 @@
           "comments": {
             "type": "string",
             "nullable": true
+          },
+          "deviceId": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false

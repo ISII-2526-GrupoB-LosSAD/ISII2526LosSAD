@@ -1,3 +1,4 @@
+using AppForSEII2526.Web;
 using AppForSEII2526.Web.API;
 using AppForSEII2526.Web;
 using AppForSEII2526.Web.Components;
@@ -46,8 +47,14 @@ builder.Services.AddScoped<AppForDevicesAPIClient>(sp => new AppForDevicesAPICli
 //adding an In-memory state container service
 //https://learn.microsoft.com/en-us/aspnet/core/blazor/state-management/?view=aspnetcore-8.0#in-memory-state-container-service
 builder.Services.AddScoped<PurchaseStateContainer>();
+builder.Services.AddScoped<ReviewStateContainer>();
+
+//adding an In-memory state container service
+//https://learn.microsoft.com/en-us/aspnet/core/blazor/state-management/?view=aspnetcore-8.0#in-memory-state-container-service
+builder.Services.AddScoped<ReceiptStateContainer>();
 
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
