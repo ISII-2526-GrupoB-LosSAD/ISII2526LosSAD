@@ -927,6 +927,14 @@
           },
           "paymentMethod": {
             "$ref": "#/components/schemas/PurchasePaymentMethodTypes"
+          },
+          "purchaseDateFrom": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "purchaseDateTo": {
+            "type": "string",
+            "format": "date-time"
           }
         },
         "additionalProperties": false
@@ -957,6 +965,10 @@
           "model": {
             "type": "string",
             "nullable": true
+          },
+          "deviceID": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false

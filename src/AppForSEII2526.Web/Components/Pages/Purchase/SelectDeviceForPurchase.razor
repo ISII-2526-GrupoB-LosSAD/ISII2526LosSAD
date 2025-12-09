@@ -1,0 +1,219 @@
+﻿
+@page "/purchase/selectDevicePurchase"
+@using AppForSEII2526.Web.API
+@inject AppForDevicesAPIClient apiclient
+@inject ILogger<SelectDeviceForPurchase> logger
+@inject PurchaseStateContainer purchaseState
+@inject NavigationManager navigation
+
+<h3>Select Devices For Purchase</h3>
+
+<div class="container-fluid">
+    <div class="row alert alert-danger" role="alert" hidden="@hideErrors">
+        <p id="ErrorsShown">Errors: @errors</p>
+    </div>
+    <div class="row">
+        <div class="col-8">
+            <div class="row">
+                <div class="col">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">Name</span>
+                        <input type="text" id="inputTitle" @bind=deviceName class="form-control" placeholder="Name" aria-label="Name" aria-describedby="basic-addon1">
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">Color</span>
+                        <input type="text" id="inputGenre" @bind=deviceColor class="form-control" placeholder="Color" aria-label="Color" aria-describedby="basic-addon1">
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">From</span>
+                        <InputDate @bind-Value="@From" id="fromDate" />
+                    </div>
+                </div>
+                <div class="col">
+                    <span class="input-group-text">To</span>
+                    <InputDate id="toDate" @bind-Value="@To" />
+
+                </div>
+                <div class="col">
+                    <button type="button" class="btn btn-primary" @onclick=@SearchDevices id="searchDevices">Search devices</button>
+                </div>
+            </div>
+            <div class="row">
+                
+                @if (devices == null)
+                {
+                    <p>Loading devices....</p>
+                }
+                else
+                {
+                    <div class="mh-100 table-responsive">
+                        <table class="table table-condensed table-hover" id="TableOfMovies">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Marca</th>
+                                    <th>Modelo</th>
+                                    <th>Color</th>
+                                    <th>Precio</th>
+                                    <th>Añadir carrito</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var device in devices)
+                                {
+                                    <tr id="MovieData_@device.Name">
+                                        <td>@device.Name</td>
+                                        <td>@device.Brand</td>
+                                        <td>@device.Model</td>
+                                        <td>@device.Color</td>
+                                        <td>@device.Price</td>
+                                        <td>
+                                            <button class="btn btn-outline-secondary" id="movieToRent_@device.Name" @onclick="@(() => AddDevice(device))">Add</button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                }
+            </div>
+        </div>
+        <div class="col-2" hidden="@hideRentingCart">
+            <div class="row">
+                <h3>Shopping Cart</h3>
+            </div>
+            @foreach (PurchaseItemDTO item in purchase.PurchaseItems)
+            {
+                <div class="row">
+                    <button type="button" class="btn btn-light" id="removeDevice_@item.Model" @onclick="@(() => RemovePurchaseItem(item))">x @item.Model - @item.Price€</button>
+                </div>
+            }
+            <div class="row">
+                <button type="button" class="btn btn-primary" id="purchaseMovieButton" @onclick=@PurchaseDevice>Rent movies</button>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+@code {
+    private bool hideRentingCart { get { return purchase.PurchaseItems.Count == 0; } }
+    private ICollection<DevicesParaComprarDTO> devices;
+    private bool hideErrors { get { return errors.Length == 0; } }
+    private string errors = "";
+    private string deviceName { get; set; }
+    private string deviceColor { get; set; }
+    private DateTime _from;
+    private DateTime From
+    {
+        get { return _from; }
+        set
+        {
+            if (_from != value)
+            {
+                //the rentingcart is cleared to ensure that only movies available for the selected period are selected
+                _from = value;
+
+                purchase.PurchaseDateTo = DateTime.SpecifyKind(_to, DateTimeKind.Utc);
+                purchaseState.ClearRentingCart();
+
+            }
+        }
+    }
+
+    private DateTime _to;
+    private DateTime To
+    {
+        get { return _to; }
+        set
+        {
+            if (_to != value)
+            {
+                //the rentingcart is cleared to ensure that only movies available for the selected period are selected
+                _to = value;
+
+            }
+        }
+    }
+
+    private PurchaseForCreateDTO purchase => purchaseState.Purchase;
+
+    private bool hiddenRentingCart = true;
+
+    private void AddDevice(DevicesParaComprarDTO device)
+    {
+        purchaseState.AddDeviceToPurchase(device);
+    }
+
+    private void RemovePurchaseItem(PurchaseItemDTO item)
+    {
+        purchaseState.RemovePurchaseItemToRent(item);
+        if (purchase.PurchaseItems.Count == 0) hiddenRentingCart = true;
+    }
+
+
+
+    public async void SearchDevices()
+    {
+
+        if (purchase.PurchaseDateFrom > purchase.PurchaseDateTo)
+        {
+            errors = "Your purchase must end after than its starts";
+            return;
+        }
+
+        if (purchase.PurchaseDateFrom < DateTime.Today || purchase.PurchaseDateTo < DateTime.Today)
+        {
+            errors = "Your purchase period must be later";
+            return;
+        }
+
+        try
+        {
+            devices = await apiclient.GetDevicesParaComprarDTOAsync(deviceName, deviceColor);
+            errors = "";
+
+        }
+        catch (ApiException ex)
+        {
+            logger.LogError($"{DateTime.Now} Error: {ex}");
+            errors = "Error while connecting to the system";
+        }
+        StateHasChanged();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        //the type of PurchaseDateFrom is DateTimeOffset, it is required a conversion
+        //https://learn.microsoft.com/es-es/dotnet/standard/datetime/converting-between-datetime-and-offset
+        _from = (_from == new DateTime(1, 1, 1)) ?
+            DateTime.SpecifyKind(DateTime.Today.AddDays(1), DateTimeKind.Utc)
+            : _from;
+        purchase.PurchaseDateFrom = _from;
+
+
+        //the type of RentalDateFrom is DateTimeOffset, it is required a conversion
+        //https://learn.microsoft.com/es-es/dotnet/standard/datetime/converting-between-datetime-and-offset
+        _to = (_to == new DateTime(1, 1, 1)) ?
+            DateTime.SpecifyKind(DateTime.Today.AddDays(2), DateTimeKind.Utc)
+            : _to;
+        purchase.PurchaseDateTo = _to;
+
+        SearchDevices();
+
+        //return base.OnInitializedAsync();
+    }
+
+    private void PurchaseDevice()
+    {
+        navigation.NavigateTo("/purchase/createrental");
+    }
+
+}
