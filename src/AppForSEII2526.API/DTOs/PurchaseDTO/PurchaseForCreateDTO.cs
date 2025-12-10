@@ -45,6 +45,9 @@
         [Required]
         public PurchasePaymentMethodTypes PaymentMethod { get; set; }
 
+        public DateTime PurchaseDateFrom { get; set; } = DateTime.Today;
+        public DateTime PurchaseDateTo { get; set; } = DateTime.Today.AddDays(7);
+
 
     }
 }
