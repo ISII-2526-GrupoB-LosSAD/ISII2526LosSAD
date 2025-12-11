@@ -1,0 +1,180 @@
+﻿@page "/review/selectDevicesForReview"
+
+
+@using AppForSEII2526.Web.API
+@inject AppForDevicesAPIClient apiclient
+@inject ILogger<SelectDevicesForReview> logger
+@inject ReviewStateContainer reviewState
+@inject NavigationManager navigation
+
+<h3>SelectDevicesForReview</h3>
+<div class="container-fluid">
+    <div class="row" hidden="@hideErrors">
+        <p>here i will show the errors</p>
+    </div>
+    <div class="row">
+        <div class="col-8">
+            <div class="row">
+                <div class="col">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">Brand</span>
+                        <input type="text" id="inputBrand" @bind=deviceBrand class="form-control" placeholder="Brand" aria-label="Brand" aria-describedby="basic-addon1">
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">Year</span>
+                        <input type="text" id="inputYear" @bind=deviceYear class="form-control" placeholder="Year" aria-label="Year" aria-describedby="basic-addon1">
+                    </div>
+                </div>
+                <div class="col">
+                    <button type="button"
+                            class="btn btn-primary"
+                            @onclick=@SearchDevices
+                            id="searchDevices">Search devices</button>
+                </div>
+            </div>
+            <div class="row">
+                @if (devices == null)
+                {
+                    <p>Loading devices....</p>
+                }
+                else
+                {
+                    <div class="mh-100 table-responsive">
+                        <table class="table table-condensed table-hover" id="TableOfDevices">
+                            <thead>
+                                <tr>
+                                    <th>Brand</th>
+                                    <th>Color</th>
+                                    <th>Name</th>
+                                    <th>Year</th>
+                                    <th>Model</th>
+                                    <th>Añadir a carrito</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var device in devices)
+                                {
+                                    <tr id="DeviceData_@device.Id">
+                                        <td>@device.Brand</td>
+                                        <td>@device.Color</td>
+                                        <td>@device.Name</td>
+                                        <td>@device.Year</td>
+                                        <td>@device.Model</td>
+                                        <td>
+                                            <button class="btn btn-outline-secondary" id="deviceToReview_@device.Id" @onclick="@(() => AddDevice(device))">Add</button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                }
+            </div>
+        </div>
+        <div class="col-2" hidden="@hideReviewCart">
+            <div class="row">
+                <h3>Review cart</h3>
+            </div>
+            @foreach (ReviewItemDTO item in review.ReviewItems)
+            {
+                <div class="row">
+                    <button type="button" class="btn btn-light" id="removeDevice_@item.Name" @onclick="@(() => RemoveReviewItem(item))">x @item.Name - @item.Model</button>
+                </div>
+            }
+            <div class="row">
+                <button type="button" class="btn btn-primary" id="DevicesReviewButton" @onclick=@ReviewDevices>Review  review</button>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+@code {
+    private string deviceBrandSelected;
+    private ICollection<string>? brandNames = new List<string>();
+    private bool hideReviewCart { get { return review.ReviewItems.Count == 0; } }
+    private ICollection<DevicesparareseniaDTO> devices;
+    private bool hideErrors { get { return errors.Length == 0; } }
+    private string errors = "";
+    private string deviceBrand { get; set; }
+    private int? deviceYear { get; set; }
+    private DateTime _from;
+    private DateTime From
+    {
+        get { return _from; }
+        set
+        {
+            if (_from != value)
+            {
+                //the rentingcart is cleared to ensure that only movies available for the selected period are selected
+                _from = value;
+                review.ReviewDate = DateTime.SpecifyKind(_from, DateTimeKind.Utc);
+                reviewState.ClearReviewCart();
+
+            }
+        }
+    }
+
+
+    public async void SearchDevices()
+    {
+        //deviceBrand = deviceBrandSelected == "All" ? null : deviceBrandSelected;
+
+       
+
+        try
+        {
+            devices = await apiclient.GetDevicesparareseniaDTOAsync(deviceBrand, deviceYear);
+            errors = "";
+
+        }
+        catch (ApiException ex)
+        {
+            logger.LogError($"{DateTime.Now} Error: {ex}");
+            errors = "Error while connecting to the system";
+        }
+        StateHasChanged();
+    }
+    private void ReviewDevices()
+    {
+        navigation.NavigateTo("/review/createreview");
+    }
+
+    private DateTime _to;
+    private DateTime To
+    {
+        get { return _to; }
+        set
+        {
+            if (_to != value)
+            {
+                //the rentingcart is cleared to ensure that only movies available for the selected period are selected
+                _to = value;
+                review.ReviewDate = DateTime.SpecifyKind(_to, DateTimeKind.Utc);
+                reviewState.ClearReviewCart();
+
+            }
+        }
+    }
+    private ReviewForCreateDTO review => reviewState.Review;
+    private bool hiddenReviewCart = true;
+
+    private void AddDevice(DevicesparareseniaDTO device)
+    {
+        reviewState.AddDeviceToReview(device);
+    }
+    private void RemoveReviewItem(ReviewItemDTO item)
+    {
+        reviewState.RemoveReviewItemToReview(item);
+        if (review.ReviewItems.Count == 0) hiddenReviewCart = true;
+    }
+    protected override async Task OnInitializedAsync()
+    {
+
+       
+        SearchDevices();
+    }
+}

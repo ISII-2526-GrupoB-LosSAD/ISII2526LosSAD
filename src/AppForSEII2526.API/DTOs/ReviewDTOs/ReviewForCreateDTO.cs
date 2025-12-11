@@ -33,12 +33,12 @@ namespace AppForSEII2526.API.DTOs.ReviewDTOs
         public IList<ReviewItemDTO> ReviewItems { get; set; }
 
         
+        public DateTime ReviewDate { get; set; } = DateTime.Today;
 
-        
 
- 
-       
-        
+
+
+
 
     }
 

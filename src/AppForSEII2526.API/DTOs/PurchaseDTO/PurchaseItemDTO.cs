@@ -9,6 +9,7 @@
         public string Brand { get; set; }
         public string Color { get; set; }
         public string Model { get; set; }
+        public int DeviceID { get; set; }
 
         public PurchaseItemDTO(string? description, double price, int quantity, string brand, string color, string model)
         {

@@ -975,6 +975,14 @@
           },
           "paymentMethod": {
             "$ref": "#/components/schemas/PurchasePaymentMethodTypes"
+          },
+          "purchaseDateFrom": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "purchaseDateTo": {
+            "type": "string",
+            "format": "date-time"
           }
         },
         "additionalProperties": false
@@ -1005,6 +1013,10 @@
           "model": {
             "type": "string",
             "nullable": true
+          },
+          "deviceID": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false
@@ -1159,11 +1171,15 @@
       "ReviewDetailDTO": {
         "type": "object",
         "properties": {
+          "reviewId": {
+            "type": "integer",
+            "format": "int32"
+          },
           "customerUserName": {
             "type": "string",
             "nullable": true
           },
-          "customerCountry": {
+          "country": {
             "type": "string",
             "nullable": true
           },
@@ -1214,6 +1230,10 @@
               "$ref": "#/components/schemas/ReviewItemDTO"
             },
             "nullable": true
+          },
+          "reviewDate": {
+            "type": "string",
+            "format": "date-time"
           }
         },
         "additionalProperties": false
@@ -1240,6 +1260,10 @@
           "comments": {
             "type": "string",
             "nullable": true
+          },
+          "deviceId": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false

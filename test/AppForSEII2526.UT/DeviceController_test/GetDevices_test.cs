@@ -78,9 +78,9 @@ namespace AppForSEII2526.UT.DevicesController_test
         public static IEnumerable<object[]> TestCasesFor_GetDevicesForReview_OK()
         {
             var deviceDTOs = new List<DevicesparareseniaDTO>() {
-                new DevicesparareseniaDTO ( 1,  "Galaxy S24 Ultra","Samsung", "Black",  2023, "Galaxy S Series" ),
-                new DevicesparareseniaDTO (2,"iPhone 15 Pro Max","Apple", "Silver", 2024, "iPhone 15" ),
-                new DevicesparareseniaDTO ( 3, "Pixel 8 Pro", "Google", "Blue", 2025, "Pixel 8" )
+                new DevicesparareseniaDTO ( 1,  "Samsung", "Black","Galaxy S24 Ultra",  2023, "Galaxy S Series" ),
+                new DevicesparareseniaDTO (2,"Apple", "Silver","iPhone 15 Pro Max", 2024, "iPhone 15" ),
+                new DevicesparareseniaDTO ( 3,  "Google", "Blue","Pixel 8 Pro", 2025, "Pixel 8" )
             };
             // Creamos varios conjuntos esperados según los filtros que se probarán
             var deviceDTOsTC1 = new List<DevicesparareseniaDTO>() { deviceDTOs[0], deviceDTOs[1], deviceDTOs[2] };

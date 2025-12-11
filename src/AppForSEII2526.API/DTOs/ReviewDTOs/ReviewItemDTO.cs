@@ -9,6 +9,7 @@ namespace AppForSEII2526.API.DTOs.ReviewDTOs
         public int Year { get; set; }
         public int Rating { get; set; }
         public string Comments { get; set; }
+        public int DeviceId { get; set; }
 
         public ReviewItemDTO(string name, string model, int year, int rating, string comments)
         {
