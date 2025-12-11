@@ -7,6 +7,11 @@
         public string Scale { get; set; }
         public float Cost { get; set; }
         public string Model { get; set; }
+
+        public ReceiptitemDTO()
+        {
+        }
+
         public ReceiptitemDTO(string Name, string Scale, float Cost, string Model)
         {
             this.Name = Name;

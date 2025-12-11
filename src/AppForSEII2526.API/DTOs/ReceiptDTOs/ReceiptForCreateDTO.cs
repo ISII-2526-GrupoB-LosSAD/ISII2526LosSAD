@@ -2,6 +2,8 @@
 {
     public class ReceiptForCreateDTO
     {
+
+
         public ReceiptForCreateDTO(string customerUserName, string customerUserSurname, string deliveryAddress, ReceiptPaymentMethodTypes receiptPaymentMethodTypes, IList<ReceiptitemDTO> receiptItems)
         {
 
