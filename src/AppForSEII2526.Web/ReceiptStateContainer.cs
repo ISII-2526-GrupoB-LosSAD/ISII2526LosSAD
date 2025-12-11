@@ -31,7 +31,7 @@ namespace AppForSEII2526.Web
                     Name = repair.Name,
                     Scale = repair.Scale,
                     Cost = repair.Cost,
-                    Model = repair.Description
+                    Model = ""
                 });
 
             }

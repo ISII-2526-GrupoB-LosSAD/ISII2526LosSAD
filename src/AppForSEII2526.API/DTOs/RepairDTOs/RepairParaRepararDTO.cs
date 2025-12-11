@@ -2,6 +2,10 @@
 {
     public class RepairParaRepararDTO
     {
+        public RepairParaRepararDTO()
+        {
+        }
+
         public RepairParaRepararDTO(int id, string name, string scale, string description, float cost)
         {
             this.id = id;

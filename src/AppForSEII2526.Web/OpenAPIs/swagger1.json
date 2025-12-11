@@ -1031,6 +1031,10 @@
       "ReceiptDetailDTO": {
         "type": "object",
         "properties": {
+          "receiptId": {
+            "type": "integer",
+            "format": "int32"
+          },
           "customerUserName": {
             "type": "string",
             "nullable": true
