@@ -7,6 +7,7 @@ namespace AppForSEII2526.API.DTOs.PurchaseDTO
     {
 
         public string CostumerUserName { get; set; }
+        public string CustomerUserSurname { get; set; }
         public string DeliveryAddress { get; set; }
         public DateTime PurchaseDate { get; set; }
         public double TotalPrice { get; set; }
@@ -22,6 +23,17 @@ namespace AppForSEII2526.API.DTOs.PurchaseDTO
             this.TotalPrice = totalPrice;
             this.TotalQuantity = totalQuantity;
             this.PurchaseItems = PurchaseItems;
+        }
+
+        public PurchaseDetailDTO(string costumerUserName, string customerUserSurname, string deliveryAddress, DateTime purchaseDate, double totalPrice, int totalQuantity, IList<PurchaseItemDTO> purchaseItems)
+        {
+            CostumerUserName = costumerUserName;
+            CustomerUserSurname = customerUserSurname;
+            DeliveryAddress = deliveryAddress;
+            PurchaseDate = purchaseDate;
+            TotalPrice = totalPrice;
+            TotalQuantity = totalQuantity;
+            PurchaseItems = purchaseItems;
         }
 
         public override bool Equals(object? obj)
