@@ -1,0 +1,97 @@
+﻿@page "/device/detailpurchase"
+@using AppForSEII2526.Web.API
+@using Microsoft.AspNetCore.Authorization
+@inject AppForDevicesAPIClient apiclient
+
+<h3>DetailPurchase</h3>
+
+@if (purchase == null)
+{
+    <p>@error</p>
+}
+else
+{
+    <table class="table table-borderless table-sm">
+        <tr>
+            <th>Name and Surname</th>
+            <td id="NameSurname">@purchase.CostumerUserName @purchase.CustomerUserSurname</td>
+        </tr>
+        <tr>
+            <th>Delivery Address</th>
+            <td id="DeliveryAddress">@purchase.DeliveryAddress</td>
+        </tr>
+        
+        <tr>
+            <th>Purchase Date</th>
+            <td id="PurchaseDate">@purchase.PurchaseDate.ToString("dd/MM/yyyy hh:mm:ss")</td>
+        </tr>
+        <tr>
+            <th>Total Price</th>
+            <td id="TotalPrice">@purchase.TotalPrice</td>
+        </tr>
+        <tr>
+            <th>Total Quantity</th>
+            <td id="TotalQuantity">@purchase.TotalQuantity</td>
+        </tr>
+    </table>
+
+    <h4>Purchase Devices</h4>
+
+    <table class="table" id="PurchaseDevices">
+        <thead>
+            <tr>
+                <th scope="col">Model</th>
+                <th scope="col">Brand</th>
+                <th scope="col">Price</th>
+                <th scope="col">Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (PurchaseItemDTO item in purchase.PurchaseItems)
+            {
+                <tr id="PurchaseItem_@item.Model">
+                    <td>@item.Model</td>
+                    <td>@item.Brand</td>
+                    <td>@item.Price €</td>
+                    <td>@item.Description</td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            @*colspan is used to state that TWO columns are collapsed*@
+        <th scope="row" colspan="2" class="text-end">Total Price</th>
+        <td id="TotalPrice">@purchase.TotalPrice €</td>
+        </tfoot>
+
+    </table>
+}
+
+@code {
+
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public int PurchaseID { get; set; }
+    private PurchaseDetailDTO purchase;
+    private string error = "";
+
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        //we check the user is logged in
+       
+
+        try
+        {
+            purchase = await apiclient.GetPurchaseAsync(PurchaseID);
+        }
+        catch (ApiException exception)
+        {
+            purchase = null;
+        }
+        if ((purchase == null))
+        {
+            error = $"Error! You are not authorized to see this purchase or there is not a purchase with id={PurchaseID}";
+        }
+    }
+}

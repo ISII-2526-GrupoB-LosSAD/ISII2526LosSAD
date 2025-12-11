@@ -16,6 +16,7 @@ namespace AppForSEII2526.Web
         {
             get
             {
+                int numberOfDays = (Purchase.PurchaseDateTo - Purchase.PurchaseDateFrom).Days;
                 return Convert.ToDecimal(Purchase.PurchaseItems.Sum(ri => ri.Price * ri.Quantity));
             }
         }
