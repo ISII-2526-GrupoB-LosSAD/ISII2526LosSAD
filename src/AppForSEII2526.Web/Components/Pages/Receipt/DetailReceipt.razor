@@ -1,0 +1,110 @@
+﻿@page "/receipt/detailreceipt"
+
+<h3>DetailReceipt</h3>
+
+@using AppForSEII2526.Web.API
+@using Microsoft.AspNetCore.Authorization
+@inject AppForDevicesAPIClient apiclient
+
+@if (receipt==null)
+{
+    <p>@error</p>
+}else
+{
+    <table class="table table-borderless table-sm">
+        <tr>
+            <th>Name and Surname</th>
+            <td id="NameSurname">@receipt.CustomerUserName @receipt.CustomerUserSurname</td>
+        </tr>
+        <tr>
+            <th>Delivery Address</th>
+            <td id="DeliveryAddress">@receipt.DeliveryAddress</td>
+        </tr>
+        <tr>
+            <th>Receipt Date</th>
+            <td id="RentalDate">@receipt.ReceiptDate.ToString("dd/MM/yyyy hh:mm:ss")</td>
+        </tr>
+        <tr>
+            <th>Total Price</th>
+            <td id="TotalPrice">@receipt.TotalPrice.ToString("F2") €</td>
+        </tr>
+        
+    </table>
+    <h4>Receipt Repeirs</h4>
+
+    <table class="table" id="ReceiptRepair">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Scale</th>
+                <th scope="col">Cost</th>
+                <th scope="col">Model</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (ReceiptitemDTO item in receipt.Receiptitems)
+            {
+                <tr id="RentalItem_@item.Name">
+                    <td>@item.Name</td>
+                    <td>@item.Scale</td>
+                    <td>@item.Cost €</td>
+                    <td>@item.Model</td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            @*colspan is used to state that TWO columns are collapsed*@
+        <th scope="row" colspan="2" class="text-end">Total Price</th>
+        <td id="TotalPrice">@receipt.TotalPrice €</td>
+        </tfoot>
+
+    </table>
+}
+
+@code {
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public int ReceiptID { get; set; }
+    private ReceiptDetailDTO receipt;
+    private string error = "";
+
+    [CascadingParameter]
+    private Task<AuthenticationState>? authenticationState { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        //we check the user is logged in
+        // string userName = "";
+        // if (authenticationState is not null)
+        // {
+        //     var authState = await authenticationState;
+        //     var user = authState?.User;
+
+        //     //we retrieve the id of the user logged in
+        //     if (user is not null)
+        //     {
+        //         if (user.Identity is not null && user.Identity.IsAuthenticated && user.IsInRole("User"))
+        //         {
+        //             userName = user.Identity.Name;
+        //         }
+        //     }
+        // }
+
+        try
+        {
+            receipt = await apiclient.GetReceiptAsync(ReceiptID);
+        }
+        catch (ApiException exception)
+        {
+            receipt = null;
+        }
+        if (receipt == null)
+        {
+            error = $"Error! There is not a receipt with id={ReceiptID}";
+        }
+
+
+    }
+
+}

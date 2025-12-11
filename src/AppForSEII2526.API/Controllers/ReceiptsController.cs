@@ -152,6 +152,7 @@ namespace AppForSEII2526.API.Controllers
             }
             // Crear DTO de respuesta
             var receiptDetail = new ReceiptDetailDTO(
+                receipt.Id,
                 user.CustomerUserName,
                 user.CustomerUserSurname,
                 receipt.DeliveryAddress,
