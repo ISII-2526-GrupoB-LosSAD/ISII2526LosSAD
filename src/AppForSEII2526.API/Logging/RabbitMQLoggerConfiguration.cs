@@ -7,6 +7,6 @@ public class RabbitMQLoggerConfiguration
     public string UserName { get; set; } = null!;
     public string Password { get; set; } = null!;
     public string Exchange { get; set; } = null!;
-    public string ExchangeType { get; set; } = null!;
+    public string ExchangeType { get; set; } = "topic";
     public bool Durable { get; set; }
 }
