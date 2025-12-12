@@ -23,7 +23,7 @@ namespace AppForSEII2526.API.Controllers
         {
             _logger = logger;
             _context = context;
-            _logger.LogInformation("Soy el constructor del dispositivo");
+            //_logger.LogInformation("Soy el constructor del dispositivo");
         }
 
         [HttpGet]
