@@ -76,12 +76,12 @@
         </div>
         <div class="col-2" hidden="@hideReviewCart">
             <div class="row">
-                <h3>Review cart</h3>
+                <button class="btn btn-outline-primary" id="showReviewCart" @onclick="@ToggleReviewCart"></button>
             </div>
             @foreach (ReviewItemDTO item in review.ReviewItems)
             {
                 <div class="row">
-                    <button type="button" class="btn btn-light" id="removeDevice_@item.Name" @onclick="@(() => RemoveReviewItem(item))">x @item.Name - @item.Model</button>
+                    <button type="button" class="btn btn-light" id="removeDevice_@item.Name" @onclick="@(() => RemoveReviewItem(item))">@item.Name</button>
                 </div>
             }
             <div class="row">
@@ -170,6 +170,10 @@
     {
         reviewState.RemoveReviewItemToReview(item);
         if (review.ReviewItems.Count == 0) hiddenReviewCart = true;
+    }
+    private void ToggleReviewCart()
+    {
+        hiddenReviewCart = !hiddenReviewCart;
     }
     protected override async Task OnInitializedAsync()
     {
