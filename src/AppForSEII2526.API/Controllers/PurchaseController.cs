@@ -60,9 +60,9 @@ namespace AppForSEII2526.API.Controllers
 
         [HttpPost] // acción HTTP POST, que se utiliza para enviar datos al servidor
         [Route("[action]")] // la ruta de la acción será api/Purchase/CreatePurchase
-        [ProducesResponseType((int)HttpStatusCode.Created)] // indica que la respuesta exitosa devolverá un estado 201 Created
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)] // indica que la respuesta puede devolver un estado 400 Bad Request
-        [ProducesResponseType((int)HttpStatusCode.Conflict)] // indica que la respuesta puede devolver un estado 409 Conflict
+        [ProducesResponseType(typeof(PurchaseDetailDTO), (int)HttpStatusCode.Created)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Conflict)]
 
         public async Task<ActionResult> CreatePurchase(PurchaseForCreateDTO purchaseForCreate) // acción para crear una nueva compra
         {
@@ -148,7 +148,9 @@ namespace AppForSEII2526.API.Controllers
 
             //it returns rentalDetail
             var purchaseDetail = new PurchaseDetailDTO( // crea un DTO de detalles de compra para la respuesta
+                purchase.Id,
                 purchaseForCreate.CustomerUserName, 
+                purchaseForCreate.UserSurname,
                 purchaseForCreate.DeliveryAddress, 
                 purchase.ReceiptDate,
                 purchase.TotalPrice,
