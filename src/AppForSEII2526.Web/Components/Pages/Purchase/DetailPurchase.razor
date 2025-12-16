@@ -40,9 +40,11 @@ else
     <table class="table" id="PurchaseDevices">
         <thead>
             <tr>
-                <th scope="col">Model</th>
                 <th scope="col">Brand</th>
+                <th scope="col">Model</th>
+                <th scope="col">Color</th>
                 <th scope="col">Price</th>
+                <th scope="col">Quantity</th>
                 <th scope="col">Description</th>
             </tr>
         </thead>
@@ -50,9 +52,11 @@ else
             @foreach (PurchaseItemDTO item in purchase.PurchaseItems)
             {
                 <tr id="PurchaseItem_@item.Model">
-                    <td>@item.Model</td>
                     <td>@item.Brand</td>
+                    <td>@item.Model</td>
+                    <td>@item.Color</td>
                     <td>@item.Price €</td>
+                    <td>@item.Quantity</td>
                     <td>@item.Description</td>
                 </tr>
             }

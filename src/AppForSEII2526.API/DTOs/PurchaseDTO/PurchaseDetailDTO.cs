@@ -5,7 +5,7 @@ namespace AppForSEII2526.API.DTOs.PurchaseDTO
 {
     public class PurchaseDetailDTO
     {
-
+        public int Id { get; set; }
         public string CostumerUserName { get; set; }
         public string CustomerUserSurname { get; set; }
         public string DeliveryAddress { get; set; }
@@ -27,6 +27,18 @@ namespace AppForSEII2526.API.DTOs.PurchaseDTO
 
         public PurchaseDetailDTO(string costumerUserName, string customerUserSurname, string deliveryAddress, DateTime purchaseDate, double totalPrice, int totalQuantity, IList<PurchaseItemDTO> purchaseItems)
         {
+            CostumerUserName = costumerUserName;
+            CustomerUserSurname = customerUserSurname;
+            DeliveryAddress = deliveryAddress;
+            PurchaseDate = purchaseDate;
+            TotalPrice = totalPrice;
+            TotalQuantity = totalQuantity;
+            PurchaseItems = purchaseItems;
+        }
+
+        public PurchaseDetailDTO(int id, string costumerUserName, string customerUserSurname, string deliveryAddress, DateTime purchaseDate, double totalPrice, int totalQuantity, IList<PurchaseItemDTO> purchaseItems)
+        {
+            Id = id;
             CostumerUserName = costumerUserName;
             CustomerUserSurname = customerUserSurname;
             DeliveryAddress = deliveryAddress;
