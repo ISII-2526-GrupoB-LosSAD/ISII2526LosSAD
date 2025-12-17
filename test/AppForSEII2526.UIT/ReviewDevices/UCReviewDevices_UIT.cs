@@ -21,6 +21,8 @@ namespace AppForSEII2526.UIT.ReviewDevices
         private const string deviceBrand1 = "Samsung";
         private const int deviceYear1 = 2024;
         private const string deviceModel1 = "Galaxy S Series";
+        private const int devicerating1 = 5;
+        private const string devicecomentario1 = "Reseña para";
 
         private const int deviceId2 = 6;
         private const string deviceName2 = "ThinkPad X1 Gen11";
@@ -183,6 +185,48 @@ namespace AppForSEII2526.UIT.ReviewDevices
             //the expected error is shown in the view
             Assert.True(createreview.CheckValidationError(expectedMessageError), $"Expected error: {expectedMessageError}");
         }
+        [Theory]
+        [InlineData("Elena", "Spain", "Perfecto rendimiento", "Reseña para", 5)]
+        [Trait("LevelTesting", "Funcional Testing")]
+        public void UC2_1_BasicFlow(string username, string country, string reviretitle, string comentario, int rating)
+        {
+            //Arrange
 
+            var createreview = new CreateReviewPO(_driver, _output);
+            var detailReview = new DetailReviewPO(_driver, _output);
+
+
+
+            //Act
+            InitialStepsForReviewDevice_UIT();
+
+            selectDevices.SelectDevices(new List<string> { deviceId1.ToString() });
+            selectDevices.ReviewDevices();
+
+            createreview.FillInReviewInfo(reviretitle, username, country);
+            Thread.Sleep(500);
+            createreview.AddDeviceReviewComent(deviceId1, comentario);
+            Thread.Sleep(1000);
+            createreview.AddDeviceReviewRating(deviceId1, rating); 
+            Thread.Sleep(1000);
+
+            createreview.PressReviewYourDevices();
+            Thread.Sleep(500);
+            createreview.PressOkModalDialog();
+            Thread.Sleep(500);
+
+            //Assert
+            //the expected error is shown in the view
+            Assert.True(detailReview.CheckReviewDetail(username,
+                reviretitle, country),
+                "Error: detail review is not as expected");
+
+            var expectedReviewItems = new List<string[]>
+                    { new string[] { deviceName1, deviceModel1, deviceYear1.ToString(),devicerating1.ToString(), devicecomentario1}, };
+
+            Assert.True(detailReview.CheckListOfDevices(expectedReviewItems),
+                "Error: rental items are not as expected");
+
+        }
     }
 }
