@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AppForSEII2526.UIT.ReceiptRepair
 {
-    internal class CreateReceiptPO : PageObject
+    internal class CreateReceipt_PO : PageObject
     {
         // IDs basados en tu CreateReceipt.razor 
         private By _NameBy = By.Id("Name");
@@ -18,7 +18,7 @@ namespace AppForSEII2526.UIT.ReceiptRepair
         // El ID dinámico para el modelo: "model_1", "model_2", etc. 
         private IWebElement _Model(int deviceId) => _driver.FindElement(By.Id("model_" + deviceId));
 
-        public CreateReceiptPO(IWebDriver driver, ITestOutputHelper output) : base(driver, output)
+        public CreateReceipt_PO(IWebDriver driver, ITestOutputHelper output) : base(driver, output)
         {
         }
 
