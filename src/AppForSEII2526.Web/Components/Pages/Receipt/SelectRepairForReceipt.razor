@@ -43,6 +43,12 @@
                 {
                     <p>Loading repairs....</p>
                 }
+                else if (repairs.Count == 0)
+                {
+                    <div class="alert alert-warning" role="alert" id="NoRepairsMessage">
+                        No repairs were found.
+                    </div>
+                }
                 else
                 {
                     <div class="mh-100 table-responsive">
@@ -85,8 +91,12 @@
                     <button type="button" class="btn btn-light" id="removeReapir_@item.Name" @onclick="@(() => RemoveReceiptItem(item))">x @item.Name - @item.Scale€</button>
                 </div>
             }
+
+            <div class="row mt-3 mb-3">
+                <h4 id="CartTotalPrice">Total: @TotalCost €</h4>
+            </div>
             <div class="row">
-                <button type="button" class="btn btn-primary" id="receiptRepairButton" @onclick=@ReceiptRepair>Receipt  repair</button>
+                <button type="button" class="btn btn-primary" id="receiptRepairButton" @onclick=@ReceiptRepair>Receipt repair</button>
             </div>
         </div>
 
@@ -131,6 +141,15 @@
         }
 
         SearchRepairs();
+    }
+    private string TotalCost
+    {
+        get
+        {
+            if (receipt.ReceiptItems == null) return "0.00";
+            // Sumamos y formateamos a 2 decimales
+            return receipt.ReceiptItems.Sum(item => item.Cost).ToString("F2");
+        }
     }
 
     public async void SearchRepairs()
