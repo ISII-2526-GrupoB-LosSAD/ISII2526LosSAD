@@ -18,13 +18,13 @@
                 <div class="col">
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="basic-addon1">Name</span>
-                        <input type="text" id="inputTitle" @bind=deviceName class="form-control" placeholder="Name" aria-label="Name" aria-describedby="basic-addon1">
+                        <input type="text" id="inputName" @bind=deviceName class="form-control" placeholder="Name" aria-label="Name" aria-describedby="basic-addon1">
                     </div>
                 </div>
                 <div class="col">
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="basic-addon1">Color</span>
-                        <input type="text" id="inputGenre" @bind=deviceColor class="form-control" placeholder="Color" aria-label="Color" aria-describedby="basic-addon1">
+                        <input type="text" id="inputColor" @bind=deviceColor class="form-control" placeholder="Color" aria-label="Color" aria-describedby="basic-addon1">
                     </div>
                 </div>
                 <div class="col">
@@ -37,6 +37,7 @@
                     <span class="input-group-text">To</span>
                     <InputDate id="toDate" @bind-Value="@To" />
 
+                    
                 </div>
                 <div class="col">
                     <button type="button" class="btn btn-primary" @onclick=@SearchDevices id="searchDevices">Search devices</button>
@@ -48,10 +49,16 @@
                 {
                     <p>Loading devices....</p>
                 }
+                else if (devices.Count == 0)
+                {
+                    <div class="alert alert-warning" role="alert" id="NoDevicesMessage">
+                        No devices were found.
+                    </div>
+                }
                 else
                 {
                     <div class="mh-100 table-responsive">
-                        <table class="table table-condensed table-hover" id="TableOfMovies">
+                        <table class="table table-condensed table-hover" id="TableOfPurchase">
                             <thead>
                                 <tr>
                                     <th>Nombre</th>
@@ -90,11 +97,20 @@
             @foreach (PurchaseItemDTO item in purchase.PurchaseItems)
             {
                 <div class="row">
+                    <button class="btn btn-outline-primary" id="showPurchasingCart" @onclick="@TogglePurchasingCart">Purchasing Cart: @item.Price €</button>
+                </div>
+                <div class="row">
                     <button type="button" class="btn btn-light" id="removeDevice_@item.Model" @onclick="@(() => RemovePurchaseItem(item))">x @item.Model - @item.Price€</button>
                 </div>
+                
             }
+            <div class="row mt-3">
+                <h5 class="text-end">
+                    Total: <span id="CartTotalPrice">@purchase.PurchaseItems.Sum(x => x.Price)</span> €
+                </h5>
+            </div>
             <div class="row">
-                <button type="button" class="btn btn-primary" id="purchaseMovieButton" @onclick=@PurchaseDevice>Purchase Devices</button>
+                <button type="button" class="btn btn-primary" id="purchaseDevicesButton" @onclick=@PurchaseDevice>Purchase Devices</button>
             </div>
         </div>
 
@@ -126,6 +142,13 @@
 
             }
         }
+    }
+
+    private bool hiddenPurchasingCart = true;
+
+    private void TogglePurchasingCart()
+    {
+        hiddenPurchasingCart = !hiddenPurchasingCart;
     }
 
     private DateTime _to;
