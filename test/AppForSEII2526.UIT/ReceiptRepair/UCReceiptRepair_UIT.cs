@@ -1,9 +1,11 @@
 ﻿using AppForMovies.UIT.Shared;
+using AppForSEII2526.UIT.ReviewDevices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace AppForSEII2526.UIT.ReceiptRepair
 {
@@ -96,7 +98,7 @@ namespace AppForSEII2526.UIT.ReceiptRepair
         // UC4.4 - Modificar carrito de reparaciones
         [Fact]
         [Trait("LevelTesting", "Funcional Testing")]
-        public void UC4_4_ModifyCart()
+        public void UC4_5_ModifyCart()
         {
             // Arrange: abrir pantalla de reparaciones
             InitialStepsForReceiptRepairs_UIT();
@@ -122,7 +124,7 @@ namespace AppForSEII2526.UIT.ReceiptRepair
         // UC4.5 - Carrito vacío: no se puede continuar
         [Fact]
         [Trait("LevelTesting", "Funcional Testing")]
-        public void UC4_5_EmptyCart_NoContinue()
+        public void UC4_6_EmptyCart_NoContinue()
         {
 
             // Arrange: abrir pantalla de reparaciones
@@ -134,7 +136,76 @@ namespace AppForSEII2526.UIT.ReceiptRepair
             Assert.True(listrepairs.ChekReceiptRepairsDisabled() || !listrepairs._receiptButton().Displayed);
         }
 
-        
+        // UC4.6 - Datos incompletos
+        [Theory]
+        [InlineData("", "Navarro Martínez", "Calle 123 Main St, New York", "iPhone 13", "Name")]
+        [InlineData("Elena", "", "Calle 123 Main St, New York", "iPhone 13", "Surname")]
+        [InlineData("Elena", "Navarro Martínez", "", "iPhone 13", "Address")]
+        [InlineData("Elena", "Navarro Martínez", "Calle 123 Main St, New York", "", "Model")]
+        [Trait("LevelTesting", "Funcional Testing")]
+        public void UC2_7_8_9_10_ValidateMandatoryFields(string username, string usersurname, string deliveryadress, string model, string expectedMessageError)
+        {
+            //ARRANGE: Instanciamos el PO adaptado
+            var createReceipt = new CreateReceiptPO(_driver, _output);
+
+            //Navegar y limpiar el carrito para empezar desde cero
+            InitialStepsForReceiptRepairs_UIT();
+            listrepairs.WaitForBeingVisible(By.Id("TableOfRepairs"));
+
+            //Seleccionar una reparación (Screen Replacement - ID 1) para habilitar el botón
+            listrepairs.SelectRepairs(name_1);
+
+            //Ir a la pantalla de Crear Recibo (Paso 4)
+            listrepairs.ReceiptRepairs();
+
+            //ACT
+            //Rellenar información personal con los datos de prueba
+            createReceipt.FillInReceiptInfo(username, usersurname, deliveryadress);
+
+            //Rellenar el modelo (usando repairId_1 = 1)
+            createReceipt.FillInModelInfo(repairId_1, model);
+
+            //Intentar Enviar
+            createReceipt.PressSubmitReceipt();
+
+            //ASSERT: Verificar que el error esperado aparece en la página
+            Assert.True(createReceipt.CheckValidationError(expectedMessageError),
+                $"Error esperado: No se encontró el mensaje de validación conteniendo '{expectedMessageError}'");
+        }
+
+        // UC4.7 - Modificar reparaciones seleccionada
+        [Fact]
+        [Trait("LevelTesting", "Funcional Testing")]
+        public void UC2_11_ModifySelection_PreserveData()
+        {
+            //ARRANGE
+            var createReceipt = new CreateReceiptPO(_driver, _output);
+            string testName = "Elena";
+            string testSurname = "Navarro Martínez";
+            string testAddress = "Calle 123 Main St, New York";
+            string testModel = "iPhone 13";
+            InitialStepsForReceiptRepairs_UIT();
+            listrepairs.WaitForBeingVisible(By.Id("TableOfRepairs"));
+
+            // Act: Seleccionamos reparación ID 1, Vamos al formulario
+            listrepairs.SelectRepairs(name_1);
+            listrepairs.ReceiptRepairs();
+
+            // Rellenamos datos usando el PO adaptado
+            createReceipt.FillInReceiptInfo(testName, testSurname, testAddress);
+            createReceipt.FillInModelInfo(repairId_1, testModel);
+
+            // Volvemos atrás
+            createReceipt.PressModifyRepairs();
+
+            // Esperamos a ver la tabla y volvemos a entrar
+            listrepairs.WaitForBeingVisible(By.Id("TableOfRepairs"));
+            listrepairs.ReceiptRepairs();
+
+            // Assert: Usamos el método de validación que añadimos al PO
+            Assert.True(createReceipt.CheckFormDataPreserved(testName, testSurname, testAddress, repairId_1, testModel),
+                "Los datos introducidos deberían conservarse tras navegar atrás y volver.");
+        }
 
     }
 }

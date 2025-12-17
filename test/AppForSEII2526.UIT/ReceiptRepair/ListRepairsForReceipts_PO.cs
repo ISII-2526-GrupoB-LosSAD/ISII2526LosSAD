@@ -8,10 +8,10 @@ namespace AppForSEII2526.UIT.ReceiptRepair
 {
     internal class ListRepairsForReceipts_PO : PageObject
     {
+        // Localizadores de los filtros de búsqueda
         private By _repairNameBy = By.Id("inputName");
         private By _repairScaleBy = By.Id("selectScale");
 
-        //private By _showReceiptBy = By.Id("")
         private By _searchRepairBy = By.Id("searchRepairs");
         private By _receiptButtonBy = By.Id("receiptRepairButton");
 
@@ -30,6 +30,7 @@ namespace AppForSEII2526.UIT.ReceiptRepair
         {
         }
 
+        // Filtrar reparaciones por nombre y escala
         public void FilterRepairs(string nameFilter, string scaleSelected)
         {
             WaitForBeingClickable(_repairNameBy);
@@ -44,12 +45,14 @@ namespace AppForSEII2526.UIT.ReceiptRepair
             System.Threading.Thread.Sleep(2000);
         }
 
+        // Añadir una reparación al carrito
         public void SelectRepairs(string repairNames)
         {
             WaitForBeingClickable(By.Id($"repairToReceipt_{repairNames}"));
             _driver.FindElement(By.Id($"repairToReceipt_{repairNames}")).Click();
         }
 
+        // Eliminar una reparación del carrito
         public void ModifyReceiptingCart(string repairNames)
         {
             WaitForBeingClickable(By.Id($"removeReapir_{repairNames}"));
@@ -57,6 +60,7 @@ namespace AppForSEII2526.UIT.ReceiptRepair
 
         }
 
+        // Comprobar si aparece el mensaje "No hay reparaciones"
         public bool IsNoRepairsMessageShown()
         {
             try
@@ -71,36 +75,35 @@ namespace AppForSEII2526.UIT.ReceiptRepair
             }
         }
 
+        // Obtener el texto del precio total del carrito
         public string GetCartTotalText()
         {
             WaitForBeingVisible(_cartTotalBy);
             return _driver.FindElement(_cartTotalBy).Text;
         }
 
+        // Continuar al proceso de creación del recibo
         public void ReceiptRepairs()
         {
             WaitForBeingClickable(_receiptButtonBy);
             _receiptButton().Click();
             System.Threading.Thread.Sleep(500);
         }
-        
-        
+
+        // Comprobar que la tabla contiene las reparaciones esperadas
         public bool CheckListOfRepairs(List<string[]> expectedRepairs)
         {
             return CheckBodyTable(expectedRepairs, _tableOfReceiptsBy);
         }
 
+        // Comprobar que el botón de crear recibo está deshabilitado
         public bool ChekReceiptRepairsDisabled()
         {
             WaitForBeingVisible(_tableOfReceiptsBy);
             return !_receiptButton().Enabled;
         }
 
-        //public bool CheckRepairsCart(string price)
-        //{
-        //    return _showReceipt
-        //}
-
+        // Comprobar que una reparación aparece en el carrito
         public bool CheckShoppingCart(string name)
         {
             Thread.Sleep(500);
@@ -125,18 +128,20 @@ namespace AppForSEII2526.UIT.ReceiptRepair
             }
         }
 
+        // Comprobar error cuando no hay reparaciones disponibles
         public bool CheckMessageErrorNotAvaibleRepairs()
         {
             return _driver.FindElement(_receiptButtonBy).Displayed == false;
 
         }
 
+        // Comprobar el texto de error mostrado en un modal
         public bool CheckMessageError(string expectedError)
         {
             return CheckModalBodyText(expectedError, _modalBy);
         }
 
-        // Método correcto para verificar si el botón está OCULTO
+        // Verificar si el botón de crear recibo está oculto
         public bool IsReceiptButtonHidden()
         {
             try
