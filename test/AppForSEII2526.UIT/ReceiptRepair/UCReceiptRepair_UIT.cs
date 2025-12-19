@@ -51,6 +51,68 @@ namespace AppForSEII2526.UIT.ReceiptRepair
             listrepairs.WaitForBeingVisible(By.Id("CreateReceipt"));
             _driver.FindElement(By.Id("CreateReceipt")).Click();
         }
+        //Examen
+        [Theory]
+        [InlineData(name_2, scale_2, price_2, "Elena", "Navarro Martínez", "Calle 123 Main St, New York", "CreditCard")]
+        [Trait("LevelTesting", "Funcional Testing")]
+        public void UC4_BF_1_2_Examen(string name, string scale,
+            string price,string username, string surname, string deliveryAddress, string paymentMethod)
+        {
+            //ARRANGE
+            var createReceipt = new CreateReceipt_PO(_driver, _output);
+            var detailReceipt = new DetailReceipt_PO(_driver, _output);
+
+            // Datos esperados para la reparación
+            string modelToRepair = "iPad Air";
+
+            // Calculamos el precio esperado formateado en este caso seran los 75 del dispositivo
+            string expectedPriceLabel = price_2;
+
+            //ACT
+            InitialStepsForReceiptRepairs_UIT();
+
+            //Seleccionar reparación 
+            listrepairs.WaitForBeingVisible(By.Id("TableOfRepairs"));
+            listrepairs.SelectRepairs(name_1);
+            Thread.Sleep(1000);
+            listrepairs.FilterRepairs("", scale);
+            listrepairs.SelectRepairs(name_2);
+            Thread.Sleep(1000);
+            listrepairs.ModifyReceiptingCart(name_1);
+            
+
+            //Ir a contratar
+            listrepairs.ReceiptRepairs();
+
+            //Rellenar formulario
+            createReceipt.FillInReceiptInfo(username, surname, deliveryAddress);
+            Thread.Sleep(1000);
+            createReceipt.FillInModelInfo(repairId_2, modelToRepair);
+
+            //Guardar y Confirmar
+            createReceipt.PressSubmitReceipt();
+            Thread.Sleep(1000);
+            createReceipt.PressOkModalDialog();
+
+            //ASSERT: Verificamos cabecera del recibo (Nombre Completo, Dirección, Precio)
+            string fullName = username + " " + surname;
+
+            Assert.True(detailReceipt.CheckReceiptDetail(
+                fullName,
+                deliveryAddress,
+                expectedPriceLabel),
+                "Error: Los detalles del recibo no son los esperados");
+
+            // Verificamos la tabla de items
+            var expectedRentalItems = new List<string[]>
+    {
+        new string[] { name, scale, price + " €", modelToRepair }
+    };
+
+            Assert.True(detailReceipt.CheckListOfRepairs(expectedRentalItems),
+                "Error: La lista de reparaciones en el recibo no es correcta");
+        }
+
         // UC4.1 - Reparación correcto
         [Theory]
         [InlineData("Elena", "Navarro Martínez", "Calle 123 Main St, New York", "CreditCard")]
