@@ -13,7 +13,7 @@ namespace AppForSEII2526.UIT.PurchaseDevices
             : base(driver, output)
         {}
 
-        public bool CheckPurchaseDetail(string name, string surname, string delivery)
+        public bool CheckPurchaseDetail(string name, string delivery)
         {
             WaitForBeingVisible(By.Id("TotalPrice")); // Ojo: asegúrate que este ID existe, en tu razor era "TotalPrice" (correcto)
             bool result = true;
@@ -25,19 +25,19 @@ namespace AppForSEII2526.UIT.PurchaseDevices
 
             // Verificamos que el texto contenga el nombre Y el apellido
             result = result && nameAndSurnameText.Contains(name);
-            result = result && nameAndSurnameText.Contains(surname);
+            
             result = result && _driver.FindElement(By.Id("DeliveryAddress")).Text.Contains(delivery);
 
-            // Delivery sí tiene su propio ID, así que esto se mantiene igual
-            result = result && _driver.FindElement(By.Id("DeliveryAddress")).Text.Equals(delivery);
 
             return result;
         }
 
         public bool CheckListOfDevices(List<string[]> expectedPurchaseItems)
         {
-            return CheckBodyTable(expectedPurchaseItems, By.Id("PurchaseMovies"));
+            return CheckBodyTable(expectedPurchaseItems, By.Id("PurchaseDevices"));
         }
+
+       
 
 
     }

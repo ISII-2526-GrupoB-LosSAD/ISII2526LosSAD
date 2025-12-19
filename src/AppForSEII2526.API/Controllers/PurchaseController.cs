@@ -39,7 +39,7 @@ namespace AppForSEII2526.API.Controllers
                         .ThenInclude(ri => ri.Device) //    incluye los dispositivos asociados a cada elemento de la compra
                             .ThenInclude(dev => dev.Model) // incluye el modelo de cada dispositivo
                 .Select(r => new PurchaseDetailDTO(  //mapea los datos a un DTO para la respuesta
-                    r.ApplicationUser.CustomerUserName, r.DeliveryAddress, r.ReceiptDate, r.TotalPrice, r.TotalQuantity, 
+                    r.ApplicationUser.CustomerUserName,r.ApplicationUser.CustomerUserSurname, r.DeliveryAddress, r.ReceiptDate, r.TotalPrice, r.TotalQuantity, 
                     r.PurchaseItems.Select(ri => new PurchaseItemDTO( // mapea cada elemento de la compra a un DTO
                         ri.Device.Description,
                         ri.Device.priceForPurchase,
