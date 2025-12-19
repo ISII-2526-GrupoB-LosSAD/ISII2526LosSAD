@@ -48,7 +48,11 @@ namespace AppForSEII2526.UIT.ReviewDevices
                 _driver.FindElement(By.Id($"deviceToReview_{deviceId}")).Click();
             }
         }
-
+        public void Boraranio()
+        {
+            _deviceYear().Clear();
+            _driver.FindElement(searchDevices).Click();
+        }
         public void ReviewDevices()
         {
             WaitForBeingClickable(DevicesReviewButton);

@@ -228,5 +228,57 @@ namespace AppForSEII2526.UIT.ReviewDevices
                 "Error: rental items are not as expected");
 
         }
+
+        [Theory]
+        [InlineData("Elena", "Spain", "Perfecto rendimiento", "Reseña para", 5, "Samsung", null)]
+        [Trait("LevelTesting", "Funcional Testing")]
+        public void UCExamen(string username, string country, string reviretitle, string comentario, int rating,string brandfiltro, int yearfiltro)
+        {
+            //Arrange
+
+            var createreview = new CreateReviewPO(_driver, _output);
+            var detailReview = new DetailReviewPO(_driver, _output);
+
+
+
+            //Act
+            InitialStepsForReviewDevice_UIT();
+
+            selectDevices.SelectDevices(new List<string> { deviceId2.ToString() });
+            Thread.Sleep(500);
+            selectDevices.SearchDevices(brandfiltro, yearfiltro);
+            selectDevices.Boraranio();
+            Thread.Sleep(1000);
+            selectDevices.SelectDevices(new List<string> { deviceId1.ToString() });
+            Thread.Sleep(500);
+            selectDevices.ModifyReviewCart(deviceName2);
+
+            selectDevices.ReviewDevices();
+
+            createreview.FillInReviewInfo(reviretitle, username, country);
+            Thread.Sleep(500);
+            createreview.AddDeviceReviewComent(deviceId1, comentario);
+            Thread.Sleep(1000);
+            createreview.AddDeviceReviewRating(deviceId1, rating);
+            Thread.Sleep(1000);
+
+            createreview.PressReviewYourDevices();
+            Thread.Sleep(500);
+            createreview.PressOkModalDialog();
+            Thread.Sleep(500);
+
+            //Assert
+            //the expected error is shown in the view
+            Assert.True(detailReview.CheckReviewDetail(username,
+                reviretitle, country),
+                "Error: detail review is not as expected");
+
+            var expectedReviewItems = new List<string[]>
+                    { new string[] { deviceName1, deviceModel1, deviceYear1.ToString(),devicerating1.ToString(), devicecomentario1}, };
+
+            Assert.True(detailReview.CheckListOfDevices(expectedReviewItems),
+                "Error: rental items are not as expected");
+
+        }
     }
 }
