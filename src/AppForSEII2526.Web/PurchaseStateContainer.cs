@@ -39,7 +39,8 @@ namespace AppForSEII2526.Web
                     Price = device.Price,
                     Brand = device.Brand,
                     Model = device.Model,
-                    Color = device.Color
+                    Color = device.Color,
+                    Quantity = 1
                 }
             );
 

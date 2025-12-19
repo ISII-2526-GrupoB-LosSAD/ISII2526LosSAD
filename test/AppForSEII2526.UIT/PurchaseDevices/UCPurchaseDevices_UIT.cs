@@ -12,11 +12,11 @@ namespace AppForSEII2526.UIT.PurchaseDevices
     public class UCPurchaseDevices_UIT : UC_UIT
     {
 
-        public UCPurchaseDevices_UIT(ITestOutputHelper output): base( output)
+        public UCPurchaseDevices_UIT(ITestOutputHelper output) : base(output)
         {
 
             Initial_step_opening_the_web_page();
-            selectDevices = new SelectDevicesForPurchase_PO(_driver, _output);   
+            selectDevices = new SelectDevicesForPurchase_PO(_driver, _output);
 
         }
 
@@ -26,6 +26,8 @@ namespace AppForSEII2526.UIT.PurchaseDevices
         public const string deciveBrand1 = "Google";
         private const string deviceColor1 = "Blue";
         private const string devicePrice1 = "999";
+        private const string deviceQuantity1 = "60 ";
+        private const string deviceDes1 = "Google’s latest smartphone";
 
         private const int deviceID2 = 1;
         private const string deviceName2 = "Galaxy S24 Ultra";
@@ -37,7 +39,8 @@ namespace AppForSEII2526.UIT.PurchaseDevices
 
         private SelectDevicesForPurchase_PO selectDevices;
 
-        private void InitialStepsForPurchaseDevices_UIT() {
+        private void InitialStepsForPurchaseDevices_UIT()
+        {
 
             selectDevices.WaitForBeingVisibleIgnoringExeptionTypes(By.Id("CreatePurchasing"));
             _driver.FindElement(By.Id("CreatePurchasing")).Click();
@@ -62,19 +65,20 @@ namespace AppForSEII2526.UIT.PurchaseDevices
                 "No purchase were found.");
         }
 
-       
 
 
-            [Theory]
-        [InlineData(deviceName1, deciveBrand1, deciveModel1,  deviceColor1, devicePrice1, "", "Blue")]
-        [InlineData(deviceName2, deciveBrand2, deciveModel2,  deviceColor2, devicePrice2, "Galaxy S24 Ultra", "")]
+
+        [Theory]
+        [InlineData(deviceName1, deciveBrand1, deciveModel1, deviceColor1, devicePrice1, "", "Blue")]
+        [InlineData(deviceName2, deciveBrand2, deciveModel2, deviceColor2, devicePrice2, "Galaxy S24 Ultra", "")]
         [Trait("LevelTesting", "Funcional Testing")]
-        public void UC1_3_4(string name,  string brand, string model, string color, string price, string filterName, string filterColor) {
+        public void UC1_3_4(string name, string brand, string model, string color, string price, string filterName, string filterColor)
+        {
             //Filtrar dispositivos por nombre y color
             Thread.Sleep(1000);
             var form = DateTime.Today.AddDays(2);
             var to = DateTime.Today.AddDays(3);
-            var expectedDevices = new List<string[]> { new string[] { name, brand, model,  color, price.ToString() }, };
+            var expectedDevices = new List<string[]> { new string[] { name, brand, model, color, price.ToString() }, };
 
             InitialStepsForPurchaseDevices_UIT();
             Thread.Sleep(1000);
@@ -140,7 +144,7 @@ namespace AppForSEII2526.UIT.PurchaseDevices
         [InlineData("Elena", "", "123 Elm St, NY", 1, "Pixel 8 Pro(x1)", "The UserSurname field is required.")]
         [InlineData("Elena", "Navarro Martínez", "", 1, "Pixel 8 Pro(x1)", "")]
         [Trait("LevelTesting", "Funcional Testing")]
-        public void UC3_6_7_8_9_testingErrorsMandatorydata(string username,string surname, string delivery, int Quantity, string device,
+        public void UC1_7_8_9_testingErrorsMandatorydata(string username, string surname, string delivery, int Quantity, string device,
           string expectedMessageError)
         {
             //Arrange
@@ -153,7 +157,7 @@ namespace AppForSEII2526.UIT.PurchaseDevices
             selectDevices.SelectDevices(new List<string> { deviceName1 });
             selectDevices.PurchaseDevices();
             Thread.Sleep(1000);
-            createpurchase.FillInPurchaseInfo(surname, username,  delivery);
+            createpurchase.FillInPurchaseInfo(username, surname, delivery);
             Thread.Sleep(1000);
 
             createpurchase.PressPurchaseYourDevices();
@@ -165,7 +169,7 @@ namespace AppForSEII2526.UIT.PurchaseDevices
 
         [Fact]
         [Trait("LevelTesting", "Funcional Testing")]
-        public void UC3_10_ModifyRentalItems()
+        public void UC1_10_ModifyPurchaseItems()
         {
             //Arrange
 
@@ -183,49 +187,110 @@ namespace AppForSEII2526.UIT.PurchaseDevices
 
             //Assert
             //the list of movies must change
-            Assert.True(selectDevices.CheckShoppingCart(deviceName1));
+            Assert.True(selectDevices.CheckShoppingCart(devicePrice1));
         }
 
 
-     //   [Theory]
-     //   [InlineData("Elena", "Navarro Martínez", "123 Elm St, NY", 1, "Pixel 8 Pro(x1)")]
-     //   [Trait("LevelTesting", "Funcional Testing")]
-     //   public void UC2_1_BasicFlow(string username, string surname, string delivery, int Quantity, string device)
-     //   {
-     //       //Arrange
+        [Theory]
+        [InlineData("Elena", "Navarro Martínez", "123 Elm St, NY", 1, "Pixel 8 Pro(x1)")]
+        [Trait("LevelTesting", "Funcional Testing")]
+        public void UC1_1_BasicFlow(string username, string surname, string delivery, int Quantity, string device)
+        {
+            //Arrange
 
-     //       var createpurchase = new CreatePurchase_PO(_driver, _output);
-     //       var detailPurchase = new DetailPurchase_PO(_driver, _output);
+            var createpurchase = new CreatePurchase_PO(_driver, _output);
+            var detailPurchase = new DetailPurchase_PO(_driver, _output);
+
+            //Act
+            InitialStepsForPurchaseDevices_UIT();
+            Thread.Sleep(1000);
+
+            //añado un elemento
+            selectDevices.SelectDevices(new List<string> { deviceName1 });
+            selectDevices.PurchaseDevices();
+
+            // información del cliente
+            createpurchase.FillInPurchaseInfo(username, surname,  delivery);
+            Thread.Sleep(1500);
+
+
+            createpurchase.PressPurchaseYourDevices();
+            Thread.Sleep(1500);
+            createpurchase.PressOkModalDialog();
+            Thread.Sleep(1500);
+
+            //Assert
+            //the expected error is shown in the view
+            Assert.True(detailPurchase.CheckPurchaseDetail(username + " " + surname, delivery),
+     "Error: detail review is not as expected");
+
+            var expectedPurchaseItems = new List<string[]>
+                    { new string[] { deciveBrand1, deciveModel1, deviceColor1, devicePrice1 + " € " + deviceQuantity1 + deviceDes1}, };
+
+            Assert.True(detailPurchase.CheckListOfDevices(expectedPurchaseItems),
+                "Error: rental items are not as expected");
+
+        }
 
 
 
-     //       //Act
-     //       InitialStepsForPurchaseDevices_UIT();
 
-     //       selectDevices.SelectDevices(new List<string> { deviceName1 });
-     //       selectDevices.PurchaseDevices();
 
-     //       createpurchase.FillInPurchaseInfo(surname, username, delivery);
-     //       Thread.Sleep(500);
+        [Theory]
+        [InlineData("Elena", "Navarro Martínez", "123 Elm St, NY", 1, "Pixel 8 Pro(x1)")]
+        [Trait("LevelTesting", "Funcional Testing")]
+        public void UC1_EXAMEN(string username, string surname, string delivery, int Quantity, string device)
+        {
+            //Arrange
+
+            var createpurchase = new CreatePurchase_PO(_driver, _output);
+            var detailPurchase = new DetailPurchase_PO(_driver, _output);
+
+            //Act  acceder a la pantalla de creación de compras
+            InitialStepsForPurchaseDevices_UIT();
+            Thread.Sleep(1000);
+
+            //añado un elemento
+            Thread.Sleep(1000);
+            selectDevices.SelectDevices(new List<string> { deviceName2 });
             
 
-     //       createpurchase.PressPurchaseYourDevices();
-     //       Thread.Sleep(500);
-     //       createpurchase.PressOkModalDialog();
-     //       Thread.Sleep(500);
+            //  Filtrar por color
+            Thread.Sleep(1000);
+            selectDevices.FilterDevices("", deviceColor1, DateTime.Today.ToString("dd/MM/yyyy"), DateTime.Today.AddDays(1).ToString("dd/MM/yyyy"));
+            Thread.Sleep(2000);
+            selectDevices.SelectDevices(new List<string> { deviceName1 });
 
-     //       //Assert
-     //       //the expected error is shown in the view
-     //       Assert.True(detailPurchase.CheckPurchaseDetail(username, surname, delivery),
-     //"Error: detail review is not as expected");
 
-     //       var expectedPurchaseItems = new List<string[]>
-     //               { new string[] { deviceName1, deciveModel1, deviceColor1, devicePrice1}, };
+            
 
-     //       Assert.True(detailPurchase.CheckListOfDevices(expectedPurchaseItems),
-     //           "Error: rental items are not as expected");
+            // Eliminar el primer dispositivo del carrito
+            Thread.Sleep(2000);
+            selectDevices.WaitForBeingVisible(By.Id("TableOfPurchase"));
 
-     //   }
 
+            //  pantalla de compra
+            Thread.Sleep(1000);
+            selectDevices.PurchaseDevices();
+            Thread.Sleep(1000);
+
+            // información del cliente
+            createpurchase.FillInPurchaseInfo(username, surname, delivery);
+
+            //  Finalizar compra
+            createpurchase.PressPurchaseYourDevices();
+            createpurchase.PressOkModalDialog();
+
+            //  Comprobar detalles de la compra 
+            Assert.True(detailPurchase.CheckPurchaseDetail(username + " " + surname, delivery),
+       "Error: Detail purchase info is not correct");
+
+            // Comprobar que SOLO está el segundo dispositivo 
+            var expectedPurchaseItems = new List<string[]>
+    {
+        new string[] { deciveBrand2, deciveModel2, deviceColor2, devicePrice2, "1", "" } 
+    };
+
+        }
     }
 }

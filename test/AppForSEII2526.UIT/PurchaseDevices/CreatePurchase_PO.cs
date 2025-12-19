@@ -24,7 +24,7 @@ namespace AppForSEII2526.UIT.PurchaseDevices
         }
 
 
-        public void FillInPurchaseInfo(string nameSurname, string name, string deliveryAddress)
+        public void FillInPurchaseInfo(string name, string nameSurname,  string deliveryAddress, string paymentMethod = "CreditCard")
         {
             WaitForBeingVisible(_nameBy);
             _name().SendKeys(name);
@@ -35,7 +35,7 @@ namespace AppForSEII2526.UIT.PurchaseDevices
 
             //create select element object 
             SelectElement selectElement = new SelectElement(_paymentMethod());
-
+            selectElement.SelectByText(paymentMethod);
 
         }
 
@@ -67,3 +67,8 @@ namespace AppForSEII2526.UIT.PurchaseDevices
         }
     }
 }
+
+
+
+
+
